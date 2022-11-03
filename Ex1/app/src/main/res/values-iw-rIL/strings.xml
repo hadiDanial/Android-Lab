@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">תרגיל 1</string>
+    <string name="Title">שלום בראודה!</string>
+    <string name="Layout1Text">This activity demonstrates the use of Relative Layout with two internal Linear layouts.</string>
+    <string name="NameLabel">השם שלך:</string>
+    <string name="ButtonLabel">Press Me</string>
+</resources>

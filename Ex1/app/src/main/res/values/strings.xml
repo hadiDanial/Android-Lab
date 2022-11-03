@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Ex1</string>
+    <string name="Title">Hello Braude! Exercise 1</string>
+    <string name="Layout1Text">This activity demonstrates the use of Relative Layout with two internal Linear layouts.</string>
+    <string name="NameLabel">Your Name:</string>
+    <string name="ButtonLabel">Press Me</string>
+</resources>
