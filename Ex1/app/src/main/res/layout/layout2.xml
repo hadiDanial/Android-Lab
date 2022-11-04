@@ -1,10 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"></LinearLayout>
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This activity demonstrates the use of Grid layout with embedded image views."
+            android:textAlignment="viewStart"
+            android:textSize="20sp" />
+
+        <androidx.gridlayout.widget.GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="25dp"
+            app:alignmentMode="alignMargins"
+            app:columnCount="2"
+            app:rowCount="2">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:maxWidth="30dp"
+                android:minWidth="20dp"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                android:background="@drawable/image_rounded"
+                app:layout_columnWeight="1"
+                android:src="@drawable/diamond" />
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:maxWidth="30dp"
+                android:minWidth="20dp"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                android:background="@drawable/image_rounded"
+                app:layout_columnWeight="1"
+                android:src="@drawable/circle" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:maxWidth="30dp"
+                android:minWidth="10dp"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                app:layout_columnWeight="1"
+                android:background="@drawable/image_rounded"
+                android:src="@drawable/cog" />
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:maxWidth="30dp"
+                android:minWidth="10dp"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                app:layout_columnWeight="1"
+                android:background="@drawable/image_rounded"
+
+                android:src="@drawable/triangle" />
+        </androidx.gridlayout.widget.GridLayout>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
