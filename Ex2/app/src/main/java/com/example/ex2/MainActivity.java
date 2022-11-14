@@ -3,9 +3,11 @@ package com.example.ex2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     {
         String op1 = operand1.getText().toString(), op2 = operand2.getText().toString();
         int num1, num2, result = 0;
+        // Close the keyboard
+        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
         if(op1.equals(""))
         {
             Toast.makeText(getApplicationContext(), (CharSequence) "Operand 1 is empty!", Toast.LENGTH_SHORT).show();

@@ -10,7 +10,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -54,7 +53,7 @@
                 android:padding="10dp" />
 
             <Space
-                android:layout_width="50dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2" />
 
@@ -96,7 +95,6 @@
                 android:id="@+id/addButton"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:onClick="onOperandClick"
@@ -127,7 +125,6 @@
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
                 android:onClick="onOperandClick"
                 android:text="÷" />
@@ -137,6 +134,7 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="20dp"
             android:background="?android:attr/listDivider" />
 
         <LinearLayout
