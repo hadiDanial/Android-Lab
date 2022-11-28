@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class Register extends AppCompatActivity {
-    private String gender;
+    private String gender = "";
     private EditText firstNameText, lastNameText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
