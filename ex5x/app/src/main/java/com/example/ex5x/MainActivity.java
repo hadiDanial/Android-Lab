@@ -17,8 +17,9 @@ public class MainActivity extends AppCompatActivity implements FragA.FragAListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		FragB fragB = (FragB) getSupportFragmentManager().findFragmentByTag("FRAGB");
 
+		FragB fragB = (FragB) getSupportFragmentManager().findFragmentByTag("FRAGB");
+		FragmentContainerView fragBContainer = findViewById(R.id.fragContainer);
 		if ((getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)){
 			if (fragB != null) {
 				getSupportFragmentManager().beginTransaction()
@@ -28,23 +29,11 @@ public class MainActivity extends AppCompatActivity implements FragA.FragAListen
 			else {
 				getSupportFragmentManager().beginTransaction()
 						.add(R.id.fragContainer, FragB.class,null, "FRAGB")
+						//	.addToBackStack(null)
 						.commit();
 			}
-			getSupportFragmentManager().executePendingTransactions();
 		}
-
-	}
-
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		return super.onCreateOptionsMenu(menu);
-	}
-
-
-	@Override
-	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-		return super.onOptionsItemSelected(item);
+		getSupportFragmentManager().executePendingTransactions();
 	}
 
 	@Override

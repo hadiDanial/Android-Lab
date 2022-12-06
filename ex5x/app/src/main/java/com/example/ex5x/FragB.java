@@ -10,13 +10,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 public class FragB extends Fragment {
 	FragBListener listener;
 	private TextView resultText, seekbarExampleText;
-//	private SeekBar seekbar;
+	private SeekBar seekbar;
 	private String format = "%.0f";
 	private float result = 0;
 
@@ -43,31 +46,40 @@ public class FragB extends Fragment {
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-//		seekbar = view.findViewById(R.id.seekBar);
-//		seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-//			@Override
-//			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-//				format = "%." + seekbar.getProgress() + "f";
-//				seekbarExampleText.setText("Example: " + String.format(format, 123.45678));
-//				if(!resultText.getText().toString().equals(""))
-//					resultText.setText(String.format(format, result));
-//			}
-//
-//			@Override
-//			public void onStartTrackingTouch(SeekBar seekBar) {
-//
-//			}
-//
-//			@Override
-//			public void onStopTrackingTouch(SeekBar seekBar) {
-//
-//			}
-//		});
-		seekbarExampleText = view.findViewById(R.id.seekbarExampleText);
 		resultText = view.findViewById(R.id.resultText);
+		addSeekbarDynamically(view);
 		super.onViewCreated(view, savedInstanceState);
 	}
+	private void addSeekbarDynamically(View view) {
+		FrameLayout parentLayout = view.findViewById(R.id.calculatorLayout);
+		View child = getLayoutInflater().inflate(R.layout.seekbar, parentLayout, false);
+		RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+		rlp.addRule(RelativeLayout.BELOW, R.id.spaceBeforeSeekbar);
+//        rlp.setMargins(0,1400, 0 , 0);
+		parentLayout.addView(child, rlp);
+		seekbar = child.findViewById(R.id.seekBar);
+//        seekbar.setProgress(4);
+		seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+				format = "%." + seekbar.getProgress() + "f";
+				seekbarExampleText.setText("Example: " + String.format(format, 123.45678));
+				if(!resultText.getText().toString().equals(""))
+					resultText.setText(String.format(format, result));
+			}
 
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+
+			}
+		});
+		seekbarExampleText = view.findViewById(R.id.seekbarExampleText);
+	}
 	public void setValues(float num1, float num2, char operation)
 	{
 		switch (operation)
