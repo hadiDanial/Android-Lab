@@ -10,12 +10,12 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragA"
         class="com.example.ex5x.FragA"
-        android:layout_width="250dp"
+        android:layout_width="330dp"
         android:layout_height="match_parent"
-        tools:layout="@layout/frag_a"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout="@layout/frag_a" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragContainer"
