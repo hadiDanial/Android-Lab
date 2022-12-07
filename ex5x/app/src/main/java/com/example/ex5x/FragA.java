@@ -19,8 +19,7 @@ public class FragA extends Fragment implements View.OnClickListener {
 	FragAListener listener;
 	private EditText operand1, operand2;
 	private Button addBtn, subBtn, mulBtn, divBtn, clearBtn;
-	char op;
-	int num1, num2;
+
 
 	@Override
 	public void onAttach(@NonNull Context context) {
@@ -72,6 +71,8 @@ public class FragA extends Fragment implements View.OnClickListener {
 	@Override
 	public void onClick(View view) {
 		String op1 = operand1.getText().toString(), op2 = operand2.getText().toString();
+		char op = '+';
+		int num1, num2;
 		// Close the keyboard
 //		((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
 

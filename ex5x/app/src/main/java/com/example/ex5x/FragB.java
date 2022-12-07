@@ -47,18 +47,7 @@ public class FragB extends Fragment {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		resultText = view.findViewById(R.id.resultText);
-		addSeekbarDynamically(view);
-		super.onViewCreated(view, savedInstanceState);
-	}
-	private void addSeekbarDynamically(View view) {
-		FrameLayout parentLayout = view.findViewById(R.id.calculatorLayout);
-		View child = getLayoutInflater().inflate(R.layout.seekbar, parentLayout, false);
-		RelativeLayout.LayoutParams rlp = new RelativeLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-		rlp.addRule(RelativeLayout.BELOW, R.id.spaceBeforeSeekbar);
-//        rlp.setMargins(0,1400, 0 , 0);
-		parentLayout.addView(child, rlp);
-		seekbar = child.findViewById(R.id.seekBar);
-//        seekbar.setProgress(4);
+		seekbar = view.findViewById(R.id.seekBar);
 		seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -79,6 +68,7 @@ public class FragB extends Fragment {
 			}
 		});
 		seekbarExampleText = view.findViewById(R.id.seekbarExampleText);
+		super.onViewCreated(view, savedInstanceState);
 	}
 	public void setValues(float num1, float num2, char operation)
 	{

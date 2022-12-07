@@ -1,5 +1,6 @@
 package com.example.ex5x;
 
+
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -11,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentContainerView;
+
+import com.example.ex5x.FragA.FragAListener;
 
 public class MainActivity extends AppCompatActivity implements FragA.FragAListener, FragB.FragBListener{
 	@Override
@@ -28,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements FragA.FragAListen
 			}
 			else {
 				getSupportFragmentManager().beginTransaction()
-						.add(R.id.fragContainer, FragB.class,null, "FRAGB")
+						.replace(R.id.fragContainer, FragB.class,null, "FRAGB")
 						//	.addToBackStack(null)
 						.commit();
 			}
@@ -36,14 +39,14 @@ public class MainActivity extends AppCompatActivity implements FragA.FragAListen
 		getSupportFragmentManager().executePendingTransactions();
 	}
 
-	@Override
+
 	public void OnCalculateResult(float op1, float op2, char operation) {
 		FragB fragB;
 		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
 		{
 			getSupportFragmentManager().beginTransaction()
 					.setReorderingAllowed(true)
-					.add(R.id.fragContainer, FragB.class, null,"FRAGB")
+					.replace(R.id.fragContainer, FragB.class, null,"FRAGB")
 					.addToBackStack("BBB")
 					.commit();
 			getSupportFragmentManager().executePendingTransactions();
