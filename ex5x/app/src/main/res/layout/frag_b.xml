@@ -38,11 +38,11 @@
         android:layout_width="match_parent"
         android:layout_height="30dp" />
 
-<!--    <include-->
-<!--        layout="@layout/seekbar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_gravity="center" />-->
+    <include
+        layout="@layout/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
     <Space
         android:layout_width="match_parent"

@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -64,9 +65,6 @@ public class FragA extends Fragment implements View.OnClickListener {
 		});
 		super.onViewCreated(view, savedInstanceState);
 	}
-	public void onOperandClick(View view)
-	{
-	}
 
 	@Override
 	public void onClick(View view) {
@@ -74,11 +72,10 @@ public class FragA extends Fragment implements View.OnClickListener {
 		char op = '+';
 		int num1, num2;
 		// Close the keyboard
-//		((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
+		((InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0);
 
 			num1 = Integer.parseInt(op1);
 			num2 = Integer.parseInt(op2);
-			boolean flag = true;
 			switch (view.getId())
 			{
 				case R.id.addButton:

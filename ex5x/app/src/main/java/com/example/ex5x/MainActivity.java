@@ -90,4 +90,20 @@ public class MainActivity extends AppCompatActivity implements
 		if(fragB != null)
 			fragB.updateSeekbarProgress(progress);
 	}
+
+	@Override
+	public void backToFragA() {
+		if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+		{
+			if(!getSupportFragmentManager().popBackStackImmediate())
+			{
+				getSupportFragmentManager().beginTransaction()
+						.setReorderingAllowed(true)
+						.replace(R.id.fragContainer, FragA.class, null,"FRAGA")
+						.addToBackStack("AAA")
+						.commit();
+				getSupportFragmentManager().executePendingTransactions();
+			}
+		}
+	}
 }

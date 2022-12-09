@@ -63,11 +63,10 @@ public class ExitAppDialogFragment extends DialogFragment {
         }catch(ClassCastException e){
             throw new ClassCastException("the class " +
                     context.getClass().getName() +
-                    " must implements the interface 'FragAListener'");
+                    " must implements the interface 'ExitDialogListener'");
         }
         super.onAttach(context);
     }
-
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -94,27 +93,6 @@ public class ExitAppDialogFragment extends DialogFragment {
         });
 
         return alertDialogBuilder.create();
-    }
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            title = getArguments().getString(ARG_PARAM1);
-            message = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_dialog, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        getDialog().setTitle(title);
-        super.onViewCreated(view, savedInstanceState);
     }
 
     public interface ExitDialogInterface {

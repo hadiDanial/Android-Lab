@@ -7,4 +7,7 @@
         android:icon="@android:drawable/btn_star_big_on"
         app:showAsAction="always"
         android:title="Settings" />
+    <item
+        android:id="@+id/backButton"
+        android:title="Back" />
 </menu>

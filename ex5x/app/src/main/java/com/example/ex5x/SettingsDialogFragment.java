@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -23,19 +22,22 @@ import android.widget.TextView;
  * Use the {@link SettingsDialogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SettingsDialogFragment extends DialogFragment {
+public class SettingsDialogFragment extends DialogFragment implements SeekBar.OnSeekBarChangeListener {
 
     private SettingsDialogInterface listener;
     private SeekBar seekBar;
     private int progress = 0;
+    private String format;
+    private TextView exampleText;
 
     public SettingsDialogFragment() {
         // Required empty public constructor
     }
 
-    public static SettingsDialogFragment newInstance() {
+    public static SettingsDialogFragment newInstance(int progress) {
         SettingsDialogFragment fragment = new SettingsDialogFragment();
         Bundle args = new Bundle();
+        args.putInt("progress", progress);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,7 +49,7 @@ public class SettingsDialogFragment extends DialogFragment {
         }catch(ClassCastException e){
             throw new ClassCastException("the class " +
                     context.getClass().getName() +
-                    " must implements the interface 'FragAListener'");
+                    " must implements the interface 'SettingsDialogInterface'");
         }
         super.onAttach(context);
     }
@@ -58,33 +60,21 @@ public class SettingsDialogFragment extends DialogFragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         final View view = inflater.inflate(R.layout.seekbar, null);
-//        exampleText = view.findViewById(R.id.textView9);
+        exampleText = view.findViewById(R.id.seekbarExampleText);
         seekBar = view.findViewById(R.id.seekBar);
+        seekBar.setOnSeekBarChangeListener(this);
+        progress = getArguments().getInt("progress", 0);
+        seekBar.setProgress(progress);
         alertDialogBuilder.setTitle("Settings");
         alertDialogBuilder.setMessage("Choose precision level");
-        alertDialogBuilder.setView(R.layout.seekbar);
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                progress = seekBar.getProgress();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-
-            }
-        });
+        alertDialogBuilder.setView(view);
         alertDialogBuilder.setPositiveButton("OK",  new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // on success
 //                listener.ExitApplication();
                 Log.println(Log.INFO, "EX6", "SUCCESS, " + progress);
+                listener.UpdateSeekbarProgress(progress);
             }
         });
         alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -94,26 +84,26 @@ public class SettingsDialogFragment extends DialogFragment {
                     dialog.dismiss();
                 }
             }
-
         });
 
         return alertDialogBuilder.create();
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.seekbar, container, false);
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+        progress = seekBar.getProgress();
+        format = "%." + progress + "f";
+        exampleText.setText("Example: " + String.format(format, 123.45678));
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        getDialog().setTitle("Settings");
-        seekBar = view.findViewById(R.id.seekBar);
+    public void onStartTrackingTouch(SeekBar seekBar) {
 
-        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 
     public interface SettingsDialogInterface {
