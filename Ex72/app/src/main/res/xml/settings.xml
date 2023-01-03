@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreferenceCompat
+        app:iconSpaceReserved="false"
+        app:key="rememberRemoved"
+        app:title="Remember removed countries" />
+
+
+    <SwitchPreferenceCompat
+        app:iconSpaceReserved="false"
+        app:key="useSP"
+        app:title="SP or RAW? True = SP" />
+
+
+</PreferenceScreen>
