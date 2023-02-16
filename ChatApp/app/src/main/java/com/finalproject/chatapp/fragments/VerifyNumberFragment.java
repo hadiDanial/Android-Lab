@@ -15,12 +15,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.finalproject.chatapp.R;
 import com.finalproject.chatapp.databinding.FragmentVerifyNumberBinding;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 
 public class VerifyNumberFragment extends Fragment {
 
+    private final IVerifyNumberListener listener;
     private FragmentVerifyNumberBinding binding;
+
+    public VerifyNumberFragment(IVerifyNumberListener listener) {
+        this.listener = listener;
+    }
 
     @Nullable
     @Override
@@ -37,7 +43,7 @@ public class VerifyNumberFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         final EditText phoneNumberEditText = binding.otp;
-        final Button loginButton = binding.login;
+        final Button loginButton = binding.verifyButton;
         final ProgressBar loadingProgressBar = binding.loading;
 
 
@@ -63,11 +69,15 @@ public class VerifyNumberFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                // TODO: Firebase Login here
-//                loginViewModel.login(phoneNumberEditText.getText().toString(),
-//                        passwordEditText.getText().toString());
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(listener.getVerificationId(), binding.otp.toString());
+                listener.signInWithPhoneAuthCredential(credential);
             }
         });
+    }
+
+    public interface IVerifyNumberListener {
+        void signInWithPhoneAuthCredential(PhoneAuthCredential credential);
+        String getVerificationId();
     }
 
 

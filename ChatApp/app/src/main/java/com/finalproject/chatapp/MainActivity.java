@@ -20,10 +20,10 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if(firebaseUser == null) {
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            Fragment f = new LoginFragment();
-            ft.add(R.id.mainContainer, f).addToBackStack("registerFragment").commit();
+            FragmentManager supportFragmentManager = getSupportFragmentManager();
+            FragmentTransaction ft = supportFragmentManager.beginTransaction();
+            Fragment f = new LoginFragment(supportFragmentManager);
+            ft.add(R.id.mainContainer, f).addToBackStack("login").commit();
         }
         else {
 // to do
