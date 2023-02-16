@@ -10,6 +10,14 @@
     <string name="login_register">Login/Register</string>
     <string name="timerRegister">(Timer)</string>
     <string name="verify">Verify Number</string>
+    <string name="Username">username</string>
+    <string name="statusOrPhoneNumber">text</string>
+    <string name="statusProfile">status</string>
+    <string name="statusDetailsProfile">test</string>
+    <string name="phone_noProfile">Phone no.</string>
+    <string name="phoneNumberDetailsProfile">TextView</string>
+    <string name="clear_conversationProfile">Clear conversation</string>
+
     <!-- Strings related to login -->
     <string name="prompt_phone">Phone Number</string>
     <string name="prompt_email">Email</string>
