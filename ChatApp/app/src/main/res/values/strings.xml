@@ -9,6 +9,7 @@
     <string name="resend_new_codeRegister">Resend new code</string>
     <string name="login_register">Login/Register</string>
     <string name="timerRegister">(Timer)</string>
+    <string name="verify">Verify Number</string>
     <!-- Strings related to login -->
     <string name="prompt_phone">Phone Number</string>
     <string name="prompt_email">Email</string>

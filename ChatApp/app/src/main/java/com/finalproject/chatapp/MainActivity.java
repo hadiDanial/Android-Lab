@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import com.finalproject.chatapp.fragments.Register;
+import com.finalproject.chatapp.fragments.LoginFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         if(firebaseUser == null) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-            Fragment f = new Register();
+            Fragment f = new LoginFragment();
             ft.add(R.id.mainContainer, f).addToBackStack("registerFragment").commit();
         }
         else {
