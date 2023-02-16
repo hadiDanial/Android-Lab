@@ -44,9 +44,8 @@ public class VerifyNumberFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final EditText phoneNumberEditText = binding.otp;
         final Button loginButton = binding.verifyButton;
-        final ProgressBar loadingProgressBar = binding.loading;
 
-
+        SetVisibility(true);
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -68,13 +67,21 @@ public class VerifyNumberFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(listener.getVerificationId(), binding.otp.toString());
+                SetVisibility(false);
+
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(listener.getVerificationId(), binding.otp.toString().trim());
                 listener.signInWithPhoneAuthCredential(credential);
             }
         });
     }
-
+    private void SetVisibility(boolean enabled) {
+        if(enabled)
+            binding.loading.setVisibility(View.GONE);
+        else
+            binding.loading.setVisibility(View.VISIBLE);
+        binding.otp.setEnabled(enabled);
+        binding.verifyButton.setEnabled(enabled);
+    }
     public interface IVerifyNumberListener {
         void signInWithPhoneAuthCredential(PhoneAuthCredential credential);
         String getVerificationId();

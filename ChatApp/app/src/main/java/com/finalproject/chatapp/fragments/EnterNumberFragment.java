@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,18 +48,13 @@ public class EnterNumberFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         final EditText phoneNumberEditText = binding.phoneNumber;
         final Button loginButton = binding.loginButton;
-        final ProgressBar loadingProgressBar = binding.loading;
-        loadingProgressBar.setVisibility(View.GONE);
-        binding.phoneNumber.setEnabled(true);
-        binding.loginButton.setEnabled(true);
+        SetVisibility(true);
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                binding.phoneNumber.setEnabled(false);
-                binding.loginButton.setEnabled(false);
+                SetVisibility( false);
                 // TODO: Firebase Login here
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallbacks = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
@@ -70,6 +66,7 @@ public class EnterNumberFragment extends Fragment {
                     @Override
                     public void onVerificationFailed(@NonNull FirebaseException e) {
                         Toast.makeText(getActivity(),"Verification failed", Toast.LENGTH_LONG).show();
+                        Log.e("FB", e.toString());
                     }
 
                     @Override
@@ -93,6 +90,15 @@ public class EnterNumberFragment extends Fragment {
         });
 
 
+    }
+
+    private void SetVisibility(boolean enabled) {
+        if(enabled)
+            binding.loading.setVisibility(View.GONE);
+        else
+            binding.loading.setVisibility(View.VISIBLE);
+        binding.phoneNumber.setEnabled(enabled);
+        binding.loginButton.setEnabled(enabled);
     }
 
     public interface IEnterNumberListener{

@@ -33,25 +33,13 @@ tools:context=".fragments.LoginFragment">
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />-->
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="50dp"
-        android:src="@mipmap/otp_img"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/login_register"
         android:textColor="@color/white"
         android:textFontWeight="500"
@@ -60,7 +48,7 @@ tools:context=".fragments.LoginFragment">
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView2"
@@ -145,7 +133,7 @@ tools:context=".fragments.LoginFragment">
 <!--                app:viewType="rectangle" />-->
         </LinearLayout>
 
-<!--        <Button-->
+        <!--        <Button-->
 <!--            android:id="@+id/verifyButton"-->
 <!--            android:layout_marginTop="5dp"-->
 <!--            android:layout_width="match_parent"-->
@@ -161,7 +149,17 @@ tools:context=".fragments.LoginFragment">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--    <LinearLayout-->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="64dp"
+        android:src="@mipmap/otp_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginDataContainer" />
+
+    <!--    <LinearLayout-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        app:layout_constraintEnd_toEndOf="parent"-->
