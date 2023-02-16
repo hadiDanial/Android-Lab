@@ -22,6 +22,17 @@
     <string name="last_nameRegister">Last Name</string>
     <string name="statusRegister">Status</string>
     <string name="doneRegister">Done</string>
+    <string name="chatHint">Write a message...</string>
+    <string name="usernameToolbar">TextView</string>
+    <string name="last_seen_onToolbar">Last seen on</string>
+    <string name="searchHint">Search friend</string>
+    <string name="contactName"> </string>
+    <string name="contactLastMessage"> </string>
+    <string name="textChat">text</string>
+    <string name="timeChat">00:00</string>
+    <string name="textChatRight">text</string>
+    <string name="timeChatRight">00:00</string>
+
 
     <!-- Strings related to login -->
     <string name="prompt_phone">Phone Number</string>
