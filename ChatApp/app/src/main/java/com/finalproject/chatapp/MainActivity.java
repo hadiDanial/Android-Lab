@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             ft.add(R.id.mainContainer, f).addToBackStack("registerFragment").commit();
         }
         else {
-
+// to do
         }
     }
 }
