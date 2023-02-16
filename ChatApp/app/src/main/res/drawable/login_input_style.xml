@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/input_focus" android:state_checked="true" android:color="@color/app_background" />
+    <item android:drawable="@drawable/input_focus" android:state_pressed="true" android:color="@color/app_background" />
+    <item android:drawable="@drawable/input_focus" android:state_active="true" android:color="@color/app_background" />
+    <item android:drawable="@drawable/input_focus" android:state_focused="true" android:color="@color/app_background" />
+    <item android:drawable="@drawable/input_normal" android:color="@color/app_background" />
+
+</selector>

@@ -17,6 +17,11 @@
     <string name="phone_noProfile">Phone no.</string>
     <string name="phoneNumberDetailsProfile">TextView</string>
     <string name="clear_conversationProfile">Clear conversation</string>
+    <string name="add_imageRegister">Add image</string>
+    <string name="first_nameRegister">First Name</string>
+    <string name="last_nameRegister">Last Name</string>
+    <string name="statusRegister">Status</string>
+    <string name="doneRegister">Done</string>
 
     <!-- Strings related to login -->
     <string name="prompt_phone">Phone Number</string>
