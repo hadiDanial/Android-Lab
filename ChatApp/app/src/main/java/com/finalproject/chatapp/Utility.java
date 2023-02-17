@@ -1,5 +1,15 @@
 package com.finalproject.chatapp;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,5 +41,42 @@ public class Utility {
         } catch (ParseException e) {
             return "";
         }
+    }
+
+
+    public static ValueAnimator getValueAnimator(View view, int colorFrom, int colorTo, int duration) {
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        colorAnimation.setDuration(duration); // milliseconds
+
+        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                view.setBackgroundColor((int) animator.getAnimatedValue());
+            }
+
+        });
+        return colorAnimation;
+    }
+
+    public static ValueAnimator getValueAnimatorLooped(View view, int colorFrom, int colorTo, int duration) {
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo, colorFrom);
+        colorAnimation.setDuration(duration); // milliseconds
+
+        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                view.setBackgroundColor((int) animator.getAnimatedValue());
+            }
+
+        });
+        return colorAnimation;
+    }
+
+    public static void setOnlineStatus(boolean value) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null)
+            FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("online").setValue(value);
     }
 }
