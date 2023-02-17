@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if(!dataSnapshot.exists()) {
-                        User user1 = new User(firebaseUser.getUid(), "", "", firebaseUser.getDisplayName(), firebaseUser.getEmail(), firebaseUser.getPhoneNumber(), false);
-                        usersDatabase.child(firebaseUser.getUid()).setValue(user1);
+                        User newUser = new User(firebaseUser.getUid(), "", "", firebaseUser.getDisplayName(), firebaseUser.getEmail(), firebaseUser.getPhoneNumber(), false);
+                        usersDatabase.child(firebaseUser.getUid()).setValue(newUser);
                     }
                 }
 
@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
             userNameRef.addListenerForSingleValueEvent(eventListener);
+
 
 
             moveToDashboard();
