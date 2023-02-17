@@ -1,6 +1,5 @@
 package com.finalproject.chatapp.adapters;
 
-import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -89,7 +88,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         private TextView messageText, messageDate;
         private RelativeLayout layout;
         private Message message;
-        private ValueAnimator colorAnimation;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -109,17 +107,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             colorFrom = context.getColor(isCurrentUser ? R.color.rightBubbleBackground : R.color.leftBubbleBackground);
             colorTo = context.getColor(isCurrentUser ? R.color.rightBubbleBackgroundPressed: R.color.leftBubbleBackgroundPressed);
 
-            colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo, colorFrom);
-            colorAnimation.setDuration(250); // milliseconds
-
-            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-
-                @Override
-                public void onAnimationUpdate(ValueAnimator animator) {
-                    layout.setBackgroundColor((int) animator.getAnimatedValue());
-                }
-
-            });
+            ValueAnimator colorAnimation = Utility.getValueAnimatorLooped(layout, colorFrom, colorTo, 250);
 
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
