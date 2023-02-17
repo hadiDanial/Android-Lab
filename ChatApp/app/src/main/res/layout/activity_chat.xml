@@ -34,12 +34,13 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_marginTop="5dp"
-            android:background="@color/app_background" />
+            android:background="@color/chatBackground" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="70dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -49,6 +50,8 @@
             android:layout_alignParentBottom="true"
             android:background="@color/app_background"
             android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:visibility="visible"
             android:weightSum="2">
 
@@ -57,8 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="3dp"
                 android:layout_marginRight="15dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
@@ -94,7 +97,8 @@
                     android:layout_gravity="center|bottom"
                     android:layout_marginRight="10dp"
                     android:backgroundTint="@color/chatMessageInput"
-                    android:src="@drawable/ic_send" />
+                    android:src="@drawable/ic_send"
+                    android:tint="#000000" />
             </RelativeLayout>
 
         </LinearLayout>
