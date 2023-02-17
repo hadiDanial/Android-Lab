@@ -9,8 +9,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.finalproject.chatapp.fragments.LoginFragment;
+import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
 import com.firebase.ui.auth.IdpResponse;
@@ -20,12 +24,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
+    private Button loginButton;
+
+
     // See: https://developer.android.com/training/basics/intents/result
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
@@ -42,14 +50,20 @@ public class MainActivity extends AppCompatActivity {
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
-        HashMap<String, String> map = new HashMap<>();
-        map.put("name", user.getDisplayName());
-        map.put("email", user.getEmail());
-        map.put("phone", user.getPhoneNumber());
-        databaseReference.setValue(map);
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+            HashMap<String, String> map = new HashMap<>();
+            map.put("name", user.getDisplayName());
+            map.put("email", user.getEmail());
+            map.put("phone", user.getPhoneNumber());
+            map.put("lastLoginTime", Instant.now().toString());
+            databaseReference.setValue(map);
+            moveToDashboard();
             // ...
         } else {
+            if(response!=null)
+            {
+                Toast.makeText(this,"Failed to login/register, " + response.getError(), Toast.LENGTH_LONG).show();
+            }
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
@@ -62,34 +76,46 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child("456");
-//        HashMap<String, String> map = new HashMap<>();
-//        map.put("K1", "Data");
-//        map.put("Test", "Hello");
-//        databaseReference.setValue(map);
-
-
-
-
-        if(firebaseUser == null) {
-            List<AuthUI.IdpConfig> providers = Arrays.asList(
-                    new AuthUI.IdpConfig.EmailBuilder().build(),
-                    new AuthUI.IdpConfig.PhoneBuilder().build(),
-                    new AuthUI.IdpConfig.GoogleBuilder().build());
-
-// Create and launch sign-in intent
-            Intent signInIntent = AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setAvailableProviders(providers)
-                    .build();
-            signInLauncher.launch(signInIntent);
+        if(firebaseUser != null) {
+            moveToDashboard();
 //            FragmentManager supportFragmentManager = getSupportFragmentManager();
 //            FragmentTransaction ft = supportFragmentManager.beginTransaction();
 //            Fragment f = new LoginFragment(supportFragmentManager);
 //            ft.add(R.id.mainContainer, f).addToBackStack("login").commit();
         }
-        else {
-// to do
-        }
+
+        loginButton = findViewById(R.id.loginButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginUsingAuthUI();
+            }
+        });
+    }
+
+    private void moveToDashboard() {
+        Intent intent = new Intent(this, Dashboard.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void loginUsingAuthUI() {
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.PhoneBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build());
+
+        // Create and launch sign-in intent
+        AuthMethodPickerLayout myLayout = new AuthMethodPickerLayout.Builder(R.layout.auth_ui_login)
+                .setGoogleButtonId(R.id.googleLoginButton)
+                .setPhoneButtonId(R.id.phoneLoginButton)
+                .setEmailButtonId(R.id.emailLoginButton).build();
+
+        Intent signInIntent = AuthUI.getInstance()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(providers)
+                .setAuthMethodPickerLayout(myLayout)
+                .build();
+        signInLauncher.launch(signInIntent);
     }
 }
