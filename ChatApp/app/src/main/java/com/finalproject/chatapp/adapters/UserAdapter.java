@@ -96,7 +96,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         public void setUser(User user) {
             this.user = user;
             status.setText(user.isOnline() ? "Online" : "Offline");
-            name.setText(user.getDisplayName());
+            name.setText(user.getName());
         }
     }
 }

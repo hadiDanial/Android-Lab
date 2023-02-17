@@ -1,6 +1,7 @@
 package com.finalproject.chatapp.models;
 
 import com.finalproject.chatapp.Utility;
+import com.google.firebase.database.Exclude;
 
 import java.time.Instant;
 import java.util.Date;
@@ -80,5 +81,12 @@ public class User {
     @Override
     public String toString() {
         return firstName + " " + lastName;
+    }
+
+    @Exclude
+    public String getName() {
+        if(displayName != null && !displayName.equals(""))
+            return displayName;
+        return toString();
     }
 }
