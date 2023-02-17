@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
             // Successfully signed in
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-//            DatabaseReference usersDatabase = FirebaseDatabase.getInstance().getReference("Users");
-//            User user1 = new User(firebaseUser.getUid(), "Hadi", "Danial", "Hadi123", false);
-//            usersDatabase.child(firebaseUser.getUid()).setValue(user1);
+            DatabaseReference usersDatabase = FirebaseDatabase.getInstance().getReference("Users");
+            User user1 = new User(firebaseUser.getUid(), "aneel", "amar", firebaseUser.getDisplayName(), true);
+            usersDatabase.child(firebaseUser.getUid()).setValue(user1);
 
             moveToDashboard();
             // ...
