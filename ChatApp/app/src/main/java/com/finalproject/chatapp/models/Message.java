@@ -3,41 +3,41 @@ package com.finalproject.chatapp.models;
 import java.sql.Date;
 
 public class Message {
-    private Chat chat;
-    private User user;
-    private Date messageDate;
+    private String chatID;
+    private String userID;
+    private String messageDate;
     private String content;
 
     public Message(){}
 
-    public Message(Chat chat, User user, Date messageDate, String content) {
-        this.chat = chat;
-        this.user = user;
+    public Message(String chatID, String userID, String messageDate, String content) {
+        this.chatID = chatID;
+        this.userID = userID;
         this.messageDate = messageDate;
         this.content = content;
     }
 
-    public Chat getChat() {
-        return chat;
+    public String getChatID() {
+        return chatID;
     }
 
-    public void setChat(Chat chat) {
-        this.chat = chat;
+    public void setChatID(String chatID) {
+        this.chatID = chatID;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserID() {
+        return userID;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
-    public Date getMessageDate() {
+    public String getMessageDate() {
         return messageDate;
     }
 
-    public void setMessageDate(Date messageDate) {
+    public void setMessageDate(String messageDate) {
         this.messageDate = messageDate;
     }
 

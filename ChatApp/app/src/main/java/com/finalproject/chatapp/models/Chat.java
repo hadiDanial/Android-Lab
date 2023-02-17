@@ -4,44 +4,62 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Chat {
-    private User firstUser, secondUser;
-    private String uID;
+    private String firstUserID, secondUserID;
+    private String chatID;
+
+    private String lastMessageID;
 
     public Chat(){ }
 
-    public Chat(User firstUser, User secondUser, String uID) {
-        this.firstUser = firstUser;
-        this.secondUser = secondUser;
-        this.uID = uID;
+    public Chat(String firstUserID, String secondUserID) {
+        this.firstUserID = firstUserID;
+        this.secondUserID = secondUserID;
+        this.chatID = getChatID();
     }
 
-    public User getFirstUser() {
-        return firstUser;
+    public String getFirstUserID() {
+        return firstUserID;
     }
 
-    public void setFirstUser(User firstUser) {
-        this.firstUser = firstUser;
+    public void setFirstUserID(String firstUserID) {
+        this.firstUserID = firstUserID;
     }
 
-    public User getSecondUser() {
-        return secondUser;
+    public String getSecondUserID() {
+        return secondUserID;
     }
 
-    public void setSecondUser(User secondUser) {
-        this.secondUser = secondUser;
+    public void setSecondUserID(String secondUserID) {
+        this.secondUserID = secondUserID;
     }
 
-    public void setuID(String uID) {
-        this.uID = uID;
+    public void setChatID(String chatID) {
+        this.chatID = chatID;
     }
 
-    public String getuID()
+    public String getLastMessageID() {
+        return lastMessageID;
+    }
+
+    public void setLastMessageID(String lastMessageID) {
+        this.lastMessageID = lastMessageID;
+    }
+
+    public String getChatID()
     {
-        List<String> ids = Arrays.asList(firstUser.getuID(), secondUser.getuID());
+        List<String> ids = Arrays.asList(firstUserID, secondUserID);
         ids.sort(String::compareTo);
-        String uid = ids.get(0) + ids.get(1);
+        String uid = ids.get(0) + "_" + ids.get(1);
         return uid;
-
     }
 
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "firstUserID='" + firstUserID + '\'' +
+                ", secondUserID='" + secondUserID + '\'' +
+                ", chatID='" + chatID + '\'' +
+                ", lastMessageID='" + lastMessageID + '\'' +
+                '}';
+    }
 }
