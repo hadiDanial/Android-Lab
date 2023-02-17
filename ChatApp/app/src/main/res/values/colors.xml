@@ -16,7 +16,7 @@
     <color name="colorPrimary">#075E54</color>
     <color name="test">#052147</color>
     <color name="primary_dark">#1d282f</color>
-    <color name="app_background">#1b202d</color>
+    <color name="app_background">#075E54</color>
     <color name="textLikeBackground">#212529</color>
     <color name="primary_text">#63737c</color>
     <color name="text_color_primary">#63737c</color>
