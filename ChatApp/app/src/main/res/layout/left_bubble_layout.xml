@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
         android:padding="5dp">
 
         <RelativeLayout
-            android:id="@+id/rightLayout"
+            android:id="@+id/leftLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/right_side_bubble"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/left_side_bubble"
             android:padding="5dp">
 
             <LinearLayout
@@ -22,25 +18,26 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+<!--                    android:fontFamily="@font/chivo_light"-->
                 <TextView
                     android:id="@+id/txtMessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="5dp"
-                    android:fontFamily="@font/chivo_light"
                     android:maxWidth="250dp"
                     android:singleLine="false"
-                    android:text="@string/textChatRight"
+                    android:text="@string/textChat"
                     android:textColor="@color/white"
-                    android:textSize="15dp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/messageDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:minWidth="40dp"
-                    android:text="@string/timeChatRight"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:minWidth="40.00dp"
+                    android:text="@string/timeChat"
                     android:textColor="@color/chatDate"
                     android:textColorHighlight="@color/chatDate"
                     android:textColorHint="@color/chatDate"
@@ -48,7 +45,5 @@
                     android:textSize="8sp" />
             </LinearLayout>
         </RelativeLayout>
-
     </RelativeLayout>
-
 </layout>

@@ -55,13 +55,13 @@
 <!--                    android:layout_marginBottom="5dp"-->
 <!--                    app:imageUrl="@{image}" />-->
 
+<!--                    android:src="@{status.equals(`online`)? @drawable/ic_online:@drawable/ic_offline}"-->
                 <ImageView
                     android:id="@+id/msgOnlineStatus"
                     android:layout_width="10dp"
                     android:layout_height="10dp"
                     android:layout_marginTop="40dp"
                     android:layout_marginRight="5dp"
-                    android:src="@{status.equals(`online`)? @drawable/ic_online:@drawable/ic_offline}"
                     app:layout_anchorGravity="end|center" />
                 <!--                    app:layout_anchor="@id/freindImage"-->
                 <TextView

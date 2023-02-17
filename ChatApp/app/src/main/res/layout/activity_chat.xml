@@ -13,12 +13,12 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/message_toolbar"
-            bind:activity="@{activity}"
-            bind:image="@{image}"
-            bind:status="@{status}" />
+<!--        <include-->
+<!--            android:id="@+id/toolbar"-->
+<!--            layout="@layout/message_toolbar"-->
+<!--            bind:activity="@{activity}"-->
+<!--            bind:image="@{image}"-->
+<!--            bind:status="@{status}" />-->
 
     </LinearLayout>
 
