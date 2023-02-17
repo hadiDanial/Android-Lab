@@ -7,24 +7,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.finalproject.chatapp.adapters.MessageAdapter;
 import com.finalproject.chatapp.adapters.MessageViewModel;
-import com.finalproject.chatapp.adapters.UserAdapter;
-import com.finalproject.chatapp.adapters.UserViewModel;
 import com.finalproject.chatapp.models.Chat;
 import com.finalproject.chatapp.models.Message;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.sql.Date;
-import java.time.Instant;
 
 public class ChatActivity extends AppCompatActivity implements View.OnClickListener, MessageAdapter.IMessageClickListener {
     private String userID, otherUserID, chatID;
@@ -77,6 +70,6 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void DeleteMessage(Message message) {
         // TODO: Open dialog asking if user is sure they want to delete the message
-        messagesDatabase.child(message.getMessageDate()).removeValue();
+        messagesDatabase.child(message.getDate()).removeValue();
     }
 }

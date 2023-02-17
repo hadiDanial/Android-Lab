@@ -2,21 +2,19 @@ package com.finalproject.chatapp.models;
 
 import com.google.firebase.database.Exclude;
 
-import java.sql.Date;
-
 public class Message {
     private String chatID;
     private String userID;
-    private String messageDate;
+    private String date;
     private String content;
 
     public Message() {
     }
 
-    public Message(String chatID, String userID, String messageDate, String content) {
+    public Message(String chatID, String userID, String date, String content) {
         this.chatID = chatID;
         this.userID = userID;
-        this.messageDate = messageDate;
+        this.date = date;
         this.content = content;
     }
 
@@ -38,12 +36,12 @@ public class Message {
     }
 
     @Exclude
-    public String getMessageDate() {
-        return messageDate;
+    public String getDate() {
+        return date;
     }
 
-    public void setMessageDate(String messageDate) {
-        this.messageDate = messageDate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getContent() {
