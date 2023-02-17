@@ -27,7 +27,7 @@
             android:backgroundTint="@color/app_background"
             android:orientation="vertical"
             android:padding="5dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/contactSearchView"
@@ -50,8 +50,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/card"
+        android:layout_marginHorizontal="10dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/chat_background"
+        android:foregroundGravity="center"
         tools:listitem="@layout/contact_item" />
 
 </RelativeLayout>

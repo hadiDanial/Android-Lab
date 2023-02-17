@@ -2,6 +2,7 @@ package com.finalproject.chatapp;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -9,11 +10,13 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.finalproject.chatapp.fragments.LoginFragment;
+import com.finalproject.chatapp.models.User;
 import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -21,10 +24,14 @@ import com.firebase.ui.auth.IdpResponse;
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -49,20 +56,17 @@ public class MainActivity extends AppCompatActivity {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
-            HashMap<String, String> map = new HashMap<>();
-            map.put("name", user.getDisplayName());
-            map.put("email", user.getEmail());
-            map.put("phone", user.getPhoneNumber());
-            map.put("lastLoginTime", Instant.now().toString());
-            databaseReference.setValue(map);
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+//            DatabaseReference usersDatabase = FirebaseDatabase.getInstance().getReference("Users");
+//            User user1 = new User(firebaseUser.getUid(), "Hadi", "Danial", "Hadi123", false);
+//            usersDatabase.child(firebaseUser.getUid()).setValue(user1);
+
             moveToDashboard();
             // ...
         } else {
-            if(response!=null)
-            {
-                Toast.makeText(this,"Failed to login/register, " + response.getError(), Toast.LENGTH_LONG).show();
+            if (response != null) {
+                Toast.makeText(this, "Failed to login/register, " + response.getError(), Toast.LENGTH_LONG).show();
             }
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
@@ -70,13 +74,14 @@ public class MainActivity extends AppCompatActivity {
             // ...
         }
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if(firebaseUser != null) {
+        if (firebaseUser != null) {
             moveToDashboard();
 //            FragmentManager supportFragmentManager = getSupportFragmentManager();
 //            FragmentTransaction ft = supportFragmentManager.beginTransaction();
