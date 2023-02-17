@@ -1,5 +1,7 @@
 package com.finalproject.chatapp.models;
 
+import com.google.firebase.database.Exclude;
+
 import java.sql.Date;
 
 public class Message {
@@ -8,7 +10,8 @@ public class Message {
     private String messageDate;
     private String content;
 
-    public Message(){}
+    public Message() {
+    }
 
     public Message(String chatID, String userID, String messageDate, String content) {
         this.chatID = chatID;
@@ -17,6 +20,7 @@ public class Message {
         this.content = content;
     }
 
+    @Exclude
     public String getChatID() {
         return chatID;
     }
@@ -33,6 +37,7 @@ public class Message {
         this.userID = userID;
     }
 
+    @Exclude
     public String getMessageDate() {
         return messageDate;
     }
