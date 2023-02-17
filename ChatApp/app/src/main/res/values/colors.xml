@@ -31,19 +31,23 @@
     <color name="buttonColor">#25D366</color>
     <color name="chatBackground">#128C7E</color>
     <color name="toolbarBackground">#075E54</color>
-    <color name="chatDate">#a8aebe</color>
+    <color name="chatDate">#C0C3CA</color>
     <color name="updatePhotoIcon">#a8aebe</color>
     <color name="chatMessage">#a8aebe</color>
     <color name="phoneNumberProfile">#a8aebe</color>
     <color name="editProfileImageColor">#a8aebe</color>
     <color name="editProfileEditTexts">#a8aebe</color>
     <color name="chatSearch">#292f3f</color>
-    <color name="chatMessageInput">#3d4354</color>
-    <color name="chatMessageTextColor">#9498a1</color>
+    <color name="chatMessageInput">#E3E5EA</color>
+    <color name="chatMessageTextColor">#1A1A1B</color>
     <color name="rightBubbleBackground">#7a8194</color>
+    <color name="rightBubbleBackgroundPressed">#595C67</color>
     <color name="leftBubbleBackground">#373e4e</color>
-    <color name="colorAccent">#0000ff</color>
+    <color name="leftBubbleBackgroundPressed">#2E3139</color>
+    <color name="colorAccent">#34B7F1</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="buttonNegativeColor">#292f3f</color>
     <color name="buttonPositiveColor">#b94c56</color>
+    <color name="touched">#434343</color>
+    <color name="pressed">#1C1C1C</color>
 </resources>
