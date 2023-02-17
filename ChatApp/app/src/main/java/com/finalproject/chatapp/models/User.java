@@ -1,24 +1,31 @@
 package com.finalproject.chatapp.models;
 
+import com.finalproject.chatapp.Utility;
+
 import java.time.Instant;
+import java.util.Date;
 
 public class User {
     private String uID;
     private String firstName, lastName;
     private String displayName;
+    private String email, phoneNumber;
     private boolean isOnline;
-    private Instant lastLoginTime;
+    private Date lastLoginTime;
     private String lastLoginTimeString;
 
     public User(){ }
 
-    public User(String uID, String firstName, String lastName, String displayName, boolean isOnline) {
+    public User(String uID, String firstName, String lastName, String displayName, String email, String phoneNumber, boolean isOnline) {
         this.uID = uID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.displayName = displayName;
         this.isOnline = isOnline;
-        lastLoginTime = Instant.now();
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        lastLoginTime = new Date();
+        lastLoginTimeString = Utility.getDate(lastLoginTime);
     }
 
     public String getuID() {
@@ -62,12 +69,12 @@ public class User {
     }
 
     public String getLastLoginTimeString() {
-        return lastLoginTime.toString();
+        return Utility.getDate(lastLoginTime);
     }
 
     public void setLastLoginTimeString(String lastLoginTimeString) {
         this.lastLoginTimeString = lastLoginTimeString;
-        lastLoginTime = Instant.parse(lastLoginTimeString);
+        lastLoginTime = new Date();
     }
 
     @Override
