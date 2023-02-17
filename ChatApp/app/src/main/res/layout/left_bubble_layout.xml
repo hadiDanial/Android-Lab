@@ -11,14 +11,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:background="@drawable/left_side_bubble"
+            android:clickable="true"
+            android:contextClickable="true"
             android:padding="5dp">
 
             <LinearLayout
+                android:id="@+id/leftBubbleLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-<!--                    android:fontFamily="@font/chivo_light"-->
+                <!--                    android:fontFamily="@font/chivo_light"-->
                 <TextView
                     android:id="@+id/txtMessage"
                     android:layout_width="wrap_content"
@@ -27,8 +30,7 @@
                     android:singleLine="false"
                     android:text="@string/textChat"
                     android:textColor="@color/white"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/messageDate"
@@ -42,7 +44,8 @@
                     android:textColorHighlight="@color/chatDate"
                     android:textColorHint="@color/chatDate"
                     android:textColorLink="@color/chatDate"
-                    android:textSize="8sp" />
+                    android:textSize="10sp"
+                    android:textStyle="italic" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

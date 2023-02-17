@@ -1,9 +1,13 @@
 package com.finalproject.chatapp.adapters;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +17,7 @@ import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.finalproject.chatapp.R;
+import com.finalproject.chatapp.Utility;
 import com.finalproject.chatapp.models.Message;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -81,14 +86,48 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView messageText;
+        private TextView messageText, messageDate;
+        private RelativeLayout layout;
         private Message message;
+        private ValueAnimator colorAnimation;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             messageText = itemView.findViewById(R.id.txtMessage);
+            messageDate = itemView.findViewById(R.id.messageDate);
+            layout = itemView.findViewById(R.id.rightLayout);
+        }
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        public void setMessage(Message message) {
+            this.message = message;
+            messageText.setText(message.getContent());
+            messageDate.setText(Utility.getFormattedDate(message.getDate()));
+            layout = isCurrentUser(message) ? itemView.findViewById(R.id.rightLayout) : itemView.findViewById(R.id.leftLayout);
+            boolean isCurrentUser = isCurrentUser(message);
+
+            int colorFrom, colorTo;
+            colorFrom = context.getColor(isCurrentUser ? R.color.rightBubbleBackground : R.color.leftBubbleBackground);
+            colorTo = context.getColor(isCurrentUser ? R.color.rightBubbleBackgroundPressed: R.color.leftBubbleBackgroundPressed);
+
+            colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo, colorFrom);
+            colorAnimation.setDuration(250); // milliseconds
+
+            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                @Override
+                public void onAnimationUpdate(ValueAnimator animator) {
+                    layout.setBackgroundColor((int) animator.getAnimatedValue());
+                }
+
+            });
+
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    colorAnimation.start();
+                }
+            });
+            layout.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     if (isCurrentUser(message)) {
@@ -97,11 +136,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
                     } else return false;
                 }
             });
-        }
-
-        public void setMessage(Message message) {
-            this.message = message;
-            messageText.setText(message.getContent());
         }
 
 
