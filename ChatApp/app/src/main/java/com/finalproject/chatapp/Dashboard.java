@@ -31,6 +31,18 @@ public class Dashboard extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Utility.setOnlineStatus(true);
+    }
+
+    @Override
+    protected void onPause() {
+        Utility.setOnlineStatus(false);
+        super.onPause();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return super.onCreateOptionsMenu(menu);

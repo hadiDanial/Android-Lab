@@ -56,6 +56,18 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        Utility.setOnlineStatus(true);
+    }
+
+    @Override
+    protected void onPause() {
+        Utility.setOnlineStatus(false);
+        super.onPause();
+    }
+
+    @Override
     public void onClick(View v) {
         String msg = messageText.getText().toString().trim();
         if(msg != null && !msg.equals(""))
