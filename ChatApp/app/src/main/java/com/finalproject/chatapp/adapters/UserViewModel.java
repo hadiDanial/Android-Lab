@@ -37,7 +37,7 @@ public class UserViewModel extends AndroidViewModel {
                 userArrayList.clear(); //initialize the list of the users
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-                    if (firebaseUser != null && user != null && user.getuID() != null && !user.getFirstName().equals(""))
+                    if (firebaseUser != null && user != null && user.getuID() != null && !user.getDisplayName().equals(""))
                     {
                         if (!user.getuID().equals(firebaseUser.getUid())) //if the user id is different then current connected user
                             userArrayList.add(user);
