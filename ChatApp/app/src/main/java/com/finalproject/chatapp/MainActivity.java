@@ -58,9 +58,25 @@ public class MainActivity extends AppCompatActivity {
             // Successfully signed in
             FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-//            DatabaseReference usersDatabase = FirebaseDatabase.getInstance().getReference("Users");
-//            User user1 = new User(firebaseUser.getUid(), "Hadi", "Danial", "Hadi123", false);
-//            usersDatabase.child(firebaseUser.getUid()).setValue(user1);
+            DatabaseReference usersDatabase = FirebaseDatabase.getInstance().getReference("Users");
+            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+            DatabaseReference userNameRef = rootRef.child("Users").child(firebaseUser.getUid());
+            ValueEventListener eventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(!dataSnapshot.exists()) {
+                        User user1 = new User(firebaseUser.getUid(), "", "", firebaseUser.getDisplayName(), firebaseUser.getEmail(), firebaseUser.getPhoneNumber(), false);
+                        usersDatabase.child(firebaseUser.getUid()).setValue(user1);
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    //Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+                }
+            };
+            userNameRef.addListenerForSingleValueEvent(eventListener);
+
 
             moveToDashboard();
             // ...
