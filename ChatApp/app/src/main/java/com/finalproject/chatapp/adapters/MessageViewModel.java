@@ -48,6 +48,7 @@ public class MessageViewModel extends AndroidViewModel {
                     Message message = snapshot.getValue(Message.class);
                     if (firebaseUser != null && message != null && message.getContent() != null)
                     {
+                        message.setMessageDate(snapshot.getKey());
                         messageArrayList.add(message);
                     }
                 }

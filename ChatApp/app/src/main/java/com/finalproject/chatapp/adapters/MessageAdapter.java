@@ -18,13 +18,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-public class MessageAdapter  extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
+public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     private final MessageViewModel messageViewModel;
     private final FragmentManager fragmentManager;
     private final Context context;
     private ArrayList<Message> messageArrayList;
     private String activeUserID;
-
+    private IMessageClickListener listener;
     private Observer<ArrayList<Message>> messageObservable = new Observer<ArrayList<Message>>() {
         @Override
         public void onChanged(ArrayList<Message> messages) {
@@ -33,12 +33,13 @@ public class MessageAdapter  extends RecyclerView.Adapter<MessageAdapter.ViewHol
         }
     };
 
-    public MessageAdapter(Context context, MessageViewModel messageViewModel, FragmentManager fragmentManager) {
+    public MessageAdapter(Context context, MessageViewModel messageViewModel, FragmentManager fragmentManager, IMessageClickListener listener) {
         this.messageViewModel = messageViewModel;
         messageArrayList = new ArrayList<>();
         this.fragmentManager = fragmentManager;
         this.messageViewModel.getMessages().observe((LifecycleOwner) context, messageObservable);
         this.context = context;
+        this.listener = listener;
         activeUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
     }
 
@@ -50,7 +51,7 @@ public class MessageAdapter  extends RecyclerView.Adapter<MessageAdapter.ViewHol
 
         // Inflate the custom layout
         View view;
-        if(viewType == 1) // Current User
+        if (viewType == 1) // Current User
             view = inflater.inflate(R.layout.right_bubble_layout, parent, false);
         else
             view = inflater.inflate(R.layout.left_bubble_layout, parent, false);
@@ -65,10 +66,10 @@ public class MessageAdapter  extends RecyclerView.Adapter<MessageAdapter.ViewHol
         return (isCurrentUser(messageArrayList.get(position)) ? 1 : 2);
     }
 
-    private boolean isCurrentUser(Message message)
-    {
+    private boolean isCurrentUser(Message message) {
         return message.getUserID().equals(activeUserID);
     }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.setMessage(messageArrayList.get(position));
@@ -90,8 +91,10 @@ public class MessageAdapter  extends RecyclerView.Adapter<MessageAdapter.ViewHol
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    // Todo: Delete message
-                    return false;
+                    if (isCurrentUser(message)) {
+                        listener.DeleteMessage(message);
+                        return true;
+                    } else return false;
                 }
             });
         }
@@ -102,6 +105,9 @@ public class MessageAdapter  extends RecyclerView.Adapter<MessageAdapter.ViewHol
         }
 
 
+    }
 
+    public interface IMessageClickListener {
+        public void DeleteMessage(Message message);
     }
 }
