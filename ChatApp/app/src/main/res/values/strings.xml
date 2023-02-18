@@ -21,6 +21,7 @@
     <string name="first_nameRegister">First Name</string>
     <string name="last_nameRegister">Last Name</string>
     <string name="statusRegister">Status</string>
+    <string name="displayNameRegister">Display Name</string>
     <string name="doneRegister">Done</string>
     <string name="chatHint">Write a message...</string>
     <string name="usernameToolbar">TextView</string>
