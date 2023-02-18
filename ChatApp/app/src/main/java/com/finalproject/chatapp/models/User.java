@@ -3,21 +3,33 @@ package com.finalproject.chatapp.models;
 import com.finalproject.chatapp.Utility;
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Date;
 
-public class User {
+public class User implements Serializable {
     private String uID;
     private String firstName, lastName;
     private String displayName;
     private String email, phoneNumber;
     private boolean isOnline;
     private Date lastLoginTime;
+    private String status;
     private String lastLoginTimeString;
+
+    public static final String DB_FIRST_NAME = "firstName";
+    public static final String DB_LAST_NAME = "lastName";
+    public static final String DB_DISPLAY_NAME = "displayName";
+    public static final String DB_EMAIL = "email";
+    public static final String DB_PHONE_NUMBER = "phoneNumber";
+    public static final String DB_IS_ONLINE = "online";
+    public static final String DB_LAST_LOGIN_TIME = "lastLoginTimeString";
+    public static final String DB_STATUS = "status";
+
 
     public User(){ }
 
-    public User(String uID, String firstName, String lastName, String displayName, String email, String phoneNumber, boolean isOnline) {
+    public User(String uID, String firstName, String lastName, String displayName, String email, String phoneNumber, boolean isOnline, String status) {
         this.uID = uID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -25,10 +37,12 @@ public class User {
         this.isOnline = isOnline;
         this.phoneNumber = phoneNumber;
         this.email = email;
+        this.status = status;
         lastLoginTime = new Date();
         lastLoginTimeString = Utility.getDate(lastLoginTime);
     }
 
+    @Exclude
     public String getuID() {
         return uID;
     }
@@ -76,6 +90,34 @@ public class User {
     public void setLastLoginTimeString(String lastLoginTimeString) {
         this.lastLoginTimeString = lastLoginTimeString;
         lastLoginTime = new Date();
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
