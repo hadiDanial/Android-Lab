@@ -1,14 +1,24 @@
 package com.finalproject.chatapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.finalproject.chatapp.R;
+import com.finalproject.chatapp.Dashboard;
+import com.finalproject.chatapp.controllers.UserController;
+import com.finalproject.chatapp.databinding.FragmentUserDataBinding;
+import com.finalproject.chatapp.models.User;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,31 +29,21 @@ public class UserData extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_USER = "user";
+    private final ISetupUserDetails listener;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private User user;
+    private FragmentUserDataBinding binding;
+    private boolean firstTextEntered = false, secondTextEntered = false, thirdTextEntered = false;
 
-    public UserData() {
-        // Required empty public constructor
+    public UserData(User user, ISetupUserDetails listener) {
+        this.user = user;
+        this.listener = listener;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment UserData.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static UserData newInstance(String param1, String param2) {
-        UserData fragment = new UserData();
+    public static UserData newInstance(User user, ISetupUserDetails listener) {
+        UserData fragment = new UserData(user, listener);
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -52,15 +52,77 @@ public class UserData extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user_data, container, false);
+        binding = FragmentUserDataBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setTextWatchers();
+        binding.btnDataDone.setEnabled(false);
+        binding.btnDataDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user.setDisplayName(binding.displayName.getText().toString().trim());
+                user.setFirstName(binding.firstName.getText().toString().trim());
+                user.setLastName(binding.lastName.getText().toString().trim());
+                user.setStatus(binding.status.getText().toString().trim());
+                user.setLastLoginTime(new Date());
+                UserController.updateUser(user);
+                listener.setupComplete();
+                Intent intent = new Intent(getContext(), Dashboard.class);
+                startActivity(intent);
+                getActivity().finish();
+            }
+        });
+        binding.displayName.setText(user.getDisplayName());
+        binding.firstName.setText(user.getFirstName());
+        binding.lastName.setText(user.getLastName());
+        firstTextEntered = user.getDisplayName().isEmpty(); secondTextEntered = user.getFirstName().isEmpty(); thirdTextEntered = user.getLastName().isEmpty();
+    }
+
+    private void setTextWatchers() {
+        binding.firstName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) { firstTextEntered = s.length() > 0 ? true : false; updateDoneButtonEnabled(); }
+        });
+        binding.lastName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) { secondTextEntered = s.length() > 0 ? true : false; updateDoneButtonEnabled(); }
+        });
+        binding.displayName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            @Override
+            public void afterTextChanged(Editable s) { thirdTextEntered = s.length() > 0 ? true : false; updateDoneButtonEnabled(); }
+        });
+    }
+
+    private void updateDoneButtonEnabled() {
+        if(firstTextEntered && secondTextEntered && thirdTextEntered)
+            binding.btnDataDone.setEnabled(true);
+        else
+            binding.btnDataDone.setEnabled(false);
+    }
+
+    public interface ISetupUserDetails{
+        public void setupComplete();
     }
 }

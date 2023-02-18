@@ -10,12 +10,12 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.finalproject.chatapp.fragments.LoginFragment;
+import com.finalproject.chatapp.controllers.UserController;
+import com.finalproject.chatapp.fragments.UserData;
 import com.finalproject.chatapp.models.User;
 import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
@@ -30,16 +30,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements UserData.ISetupUserDetails {
     private FirebaseAuth firebaseAuth;
     private Button loginButton;
-
+    private boolean isNewUser = false;
+    private User user;
 
     // See: https://developer.android.com/training/basics/intents/result
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
@@ -56,17 +55,28 @@ public class MainActivity extends AppCompatActivity {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
-            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
+            FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
             DatabaseReference usersDatabase = FirebaseDatabase.getInstance().getReference("Users");
-            DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-            DatabaseReference userNameRef = rootRef.child("Users").child(firebaseUser.getUid());
+            DatabaseReference userNameRef = usersDatabase.child(firebaseUser.getUid());
             ValueEventListener eventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(!dataSnapshot.exists()) {
-                        User newUser = new User(firebaseUser.getUid(), "", "", firebaseUser.getDisplayName(), firebaseUser.getEmail(), firebaseUser.getPhoneNumber(), false);
-                        usersDatabase.child(firebaseUser.getUid()).setValue(newUser);
+                    if (!dataSnapshot.exists()) { // If user doesn't exist, create new user
+                        isNewUser = true;
+                        user = new User(firebaseUser.getUid(), "", "", firebaseUser.getDisplayName(), firebaseUser.getEmail(), firebaseUser.getPhoneNumber(), false, "");
+                        usersDatabase.child(firebaseUser.getUid()).setValue(user);
+                        openUserDataFragment(user);
+                    } else // User exists
+                    {
+                        user = dataSnapshot.getValue(User.class);
+                        user.setLastLoginTime(new Date());
+                        UserController.updateStringValue(user.getLastLoginTimeString(), User.DB_LAST_LOGIN_TIME);
+                        if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) // No display name set
+                            openUserDataFragment(user);
+                        else
+                            moveToDashboard();
+
                     }
                 }
 
@@ -78,8 +88,6 @@ public class MainActivity extends AppCompatActivity {
             userNameRef.addListenerForSingleValueEvent(eventListener);
 
 
-
-            moveToDashboard();
             // ...
         } else {
             if (response != null) {
@@ -93,13 +101,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("isNewUser", isNewUser);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        this.isNewUser = savedInstanceState.getBoolean("isNewUser");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
-            moveToDashboard();
+            if (isNewUser)
+                reopenUserDataFragment();
+            else
+                moveToDashboard();
 //            FragmentManager supportFragmentManager = getSupportFragmentManager();
 //            FragmentTransaction ft = supportFragmentManager.beginTransaction();
 //            Fragment f = new LoginFragment(supportFragmentManager);
@@ -115,10 +138,40 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void reopenUserDataFragment() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference usersDatabase = FirebaseDatabase.getInstance().getReference("Users");
+        DatabaseReference userNameRef = usersDatabase.child(firebaseUser.getUid());
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) // No display name set
+                        openUserDataFragment(user);
+                    else
+                        moveToDashboard();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+    }
+
     private void moveToDashboard() {
         Intent intent = new Intent(this, Dashboard.class);
+        intent.putExtra("user", user);
         startActivity(intent);
         finish();
+    }
+
+    private void openUserDataFragment(User user) {
+        loginButton.setVisibility(View.GONE);
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        FragmentTransaction ft = supportFragmentManager.beginTransaction();
+        Fragment f = UserData.newInstance(user, this);
+        ft.add(R.id.mainContainer, f).commit();
     }
 
     private void loginUsingAuthUI() {
@@ -139,5 +192,10 @@ public class MainActivity extends AppCompatActivity {
                 .setAuthMethodPickerLayout(myLayout)
                 .build();
         signInLauncher.launch(signInIntent);
+    }
+
+    @Override
+    public void setupComplete() {
+        isNewUser = false;
     }
 }
