@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 
 import com.finalproject.chatapp.adapters.MessageAdapter;
 import com.finalproject.chatapp.adapters.MessageViewModel;
+import com.finalproject.chatapp.controllers.UserController;
 import com.finalproject.chatapp.models.Chat;
 import com.finalproject.chatapp.models.Message;
 import com.google.firebase.auth.FirebaseAuth;
@@ -58,12 +60,12 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        Utility.setOnlineStatus(true);
+        UserController.setOnlineStatus(true);
     }
 
     @Override
     protected void onPause() {
-        Utility.setOnlineStatus(false);
+        UserController.setOnlineStatus(false);
         super.onPause();
     }
 
@@ -82,6 +84,13 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void DeleteMessage(Message message) {
         // TODO: Open dialog asking if user is sure they want to delete the message
-        messagesDatabase.child(message.getDate()).removeValue();
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Are you sure you want to delete this message?");
+        alertDialogBuilder.setCancelable(true);
+        alertDialogBuilder.setPositiveButton("Delete", (dialog, id) -> messagesDatabase.child(message.getDate()).removeValue());
+        alertDialogBuilder.setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
+
+        alertDialogBuilder.create().show();
+
     }
 }
