@@ -73,10 +73,4 @@ public class Utility {
         });
         return colorAnimation;
     }
-
-    public static void setOnlineStatus(boolean value) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null)
-            FirebaseDatabase.getInstance().getReference("Users").child(user.getUid()).child("online").setValue(value);
-    }
 }
