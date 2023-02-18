@@ -2,6 +2,7 @@ package com.finalproject.chatapp.adapters;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -23,7 +24,8 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<ArrayList<User>> users;
     private FirebaseAuth firebaseAuth;
     private ArrayList<User> userArrayList;
-
+    private User activeUser;
+    private ISetActiveUser listener;
     public UserViewModel(@NonNull Application application) {
         super(application);
         users = new MutableLiveData<>();
@@ -31,18 +33,23 @@ public class UserViewModel extends AndroidViewModel {
         userArrayList = new ArrayList<>();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         DatabaseReference usersDatabase = FirebaseDatabase.getInstance().getReference("Users");
+
+        // Get all users from database
         usersDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 userArrayList.clear(); //initialize the list of the users
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
+                    user.setuID(snapshot.getKey());
                     if (firebaseUser != null && user != null && user.getuID() != null)
                     {
                         if (!user.getuID().equals(firebaseUser.getUid())) //if the user id is different then current connected user
                             userArrayList.add(user);
-//                        else
-//                            myID = user.getuID(); //else set myID string value
+                        else{
+                            activeUser = user;
+                            listener.setActiveUser(activeUser);
+                        }
 //                        chatsViewModel.getSelected().observe((LifecycleOwner) context, item -> { //update the userAdapter about change in date and refresh the view
 //                            userAdapter.notifyDataSetChanged();
                     }
@@ -53,12 +60,16 @@ public class UserViewModel extends AndroidViewModel {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(getApplication(), "Failed to get all users!", Toast.LENGTH_LONG).show();
             }
         });
 
     }
+    public interface ISetActiveUser{
+        void setActiveUser(User activeUser);
+    }
 
+    public void setListener(ISetActiveUser listener){ this.listener = listener; }
     public MutableLiveData<ArrayList<User>> getUsers() {
         return users;
     }

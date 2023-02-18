@@ -2,22 +2,35 @@ package com.finalproject.chatapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.finalproject.chatapp.adapters.UserAdapter;
 import com.finalproject.chatapp.adapters.UserViewModel;
+import com.finalproject.chatapp.controllers.UserController;
+import com.finalproject.chatapp.fragments.Profile;
+import com.finalproject.chatapp.fragments.UserData;
+import com.finalproject.chatapp.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class Dashboard extends AppCompatActivity {
+public class Dashboard extends AppCompatActivity implements UserViewModel.ISetActiveUser {
     private FirebaseAuth firebaseAuth;
     private RecyclerView recyclerView;
+    private RelativeLayout container;
+    private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,20 +38,22 @@ public class Dashboard extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         UserAdapter userAdapter = new UserAdapter(this, userViewModel, getSupportFragmentManager());
+        userViewModel.setListener(this);
         recyclerView = findViewById(R.id.recyclerViewContact);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(userAdapter);
+        container = findViewById(R.id.dashboardContainer);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Utility.setOnlineStatus(true);
+        UserController.setOnlineStatus(true);
     }
 
     @Override
     protected void onPause() {
-        Utility.setOnlineStatus(false);
+        UserController.setOnlineStatus(false);
         super.onPause();
     }
 
@@ -52,6 +67,15 @@ public class Dashboard extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId())
         {
+            case  R.id.profile:
+            {
+                //loginButton.setVisibility(View.GONE);
+                FragmentManager supportFragmentManager = getSupportFragmentManager();
+                FragmentTransaction ft = supportFragmentManager.beginTransaction();
+                Fragment f = Profile.newInstance(user);
+                ft.add(R.id.mainContainer, f).commit();
+                break;
+            }
             case R.id.Logout:
             {
                 firebaseAuth.signOut();
@@ -66,5 +90,10 @@ public class Dashboard extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void setActiveUser(User activeUser) {
+        this.user = activeUser;
     }
 }
