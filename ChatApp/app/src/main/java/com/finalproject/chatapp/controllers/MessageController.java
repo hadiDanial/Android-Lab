@@ -24,4 +24,9 @@ public class MessageController {
         DatabaseReference messagesDatabase = FirebaseDatabase.getInstance().getReference(TABLE_NAME).child(message.getChatID());
         messagesDatabase.child(message.getDate().replace(OLD_CHAR, NEW_CHAR)).removeValue();
     }
+    public static void clearChat(String chatId)
+    {
+        FirebaseDatabase.getInstance().getReference(TABLE_NAME).child(chatId).removeValue();
+    }
+
 }
