@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -101,13 +102,14 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void DeleteMessage(Message message) {
         // Open dialog asking if user is sure they want to delete the message
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Are you sure you want to delete this message?");
-        alertDialogBuilder.setCancelable(true);
+        DialogInterface.OnClickListener positiveButtonAction = (dialog, id) -> MessageController.deleteMessage(message);
+        DialogInterface.OnClickListener negativeButtonAction = (dialog, id) -> dialog.cancel();
+        String alertMessage = "Are you sure you want to delete this message?";
+        String positiveButtonText = "Delete", negativeButtonText = "Cancel";
+        boolean isCancelable = true;
 
-        alertDialogBuilder.setPositiveButton("Delete", (dialog, id) -> MessageController.deleteMessage(message));
-        alertDialogBuilder.setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
-
-        alertDialogBuilder.create().show();
+        Utility.generateAlertDialog(positiveButtonAction, negativeButtonAction, alertMessage, positiveButtonText, negativeButtonText, isCancelable, this);
     }
+
+
 }
