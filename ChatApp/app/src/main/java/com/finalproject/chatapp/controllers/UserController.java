@@ -14,43 +14,44 @@ public class UserController {
 
     /**
      * Set online status of logged in user.
+     *
      * @param value
      */
     public static void setOnlineStatus(boolean value) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null)
+        if (user != null)
             FirebaseDatabase.getInstance().getReference(TABLE_NAME).child(user.getUid()).child(User.DB_IS_ONLINE).setValue(value);
     }
 
     /**
      * Update a value in a user in Firebase database.
+     *
      * @param newValue
      * @param columnName
      */
-    public static void updateStringValue(String newValue, String columnName)
-    {
+    public static void updateStringValue(String newValue, String columnName) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null)
+        if (user != null)
             FirebaseDatabase.getInstance().getReference(TABLE_NAME).child(user.getUid()).child(columnName).setValue(newValue);
     }
 
     /**
      * Update user in Firebase database.
+     *
      * @param updatedUser
      */
-    public static void updateUser(User updatedUser)
-    {
+    public static void updateUser(User updatedUser) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null && updatedUser != null && updatedUser.getuID() != null)
+        if (user != null && updatedUser != null && updatedUser.getuID() != null)
             FirebaseDatabase.getInstance().getReference(TABLE_NAME).child(user.getUid()).setValue(updatedUser);
     }
 
     /**
      * Log out and clear saved user data.
+     *
      * @param application
      */
-    public static void logout(Application application)
-    {
+    public static void logout(Application application) {
         FirebaseAuth.getInstance().signOut();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(application);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -60,11 +61,11 @@ public class UserController {
 
     /**
      * Save logged-in user data in SharedPreferences (SP).
+     *
      * @param application
-     * @param user User to save.
+     * @param user        User to save.
      */
-    public static void saveUserData(Application application, User user)
-    {
+    public static void saveUserData(Application application, User user) {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(application);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(User.DB_IS_ONLINE, user.isOnline());
@@ -85,11 +86,10 @@ public class UserController {
      * @param application
      * @return Logged-in user data, or null if no user is logged in.
      */
-    public static User getLoggedInUser(Application application)
-    {
+    public static User getLoggedInUser(Application application) {
         User user = new User();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(application);
-        if(!sharedPref.getBoolean("saved", false))
+        if (!sharedPref.getBoolean("saved", false))
             return null;
         user.setOnline(sharedPref.getBoolean(User.DB_IS_ONLINE, false));
         user.setDisplayName(sharedPref.getString(User.DB_DISPLAY_NAME, null));
@@ -104,4 +104,40 @@ public class UserController {
     }
 
 
+    public static User setupUser(User user, FirebaseUser firebaseUser, boolean overrideAllFields) {
+        boolean updateUser = false;
+        if (overrideAllFields) {
+            user = new User(firebaseUser.getUid(), "", "", firebaseUser.getDisplayName(), firebaseUser.getEmail(), firebaseUser.getPhoneNumber(), false, "");
+            updateUser = true;
+        } else {
+            user.setuID(firebaseUser.getUid());
+            if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) {
+                user.setDisplayName(firebaseUser.getDisplayName());
+                updateUser = true;
+            }
+            if (user.getEmail() == null || user.getEmail().isEmpty()) {
+                user.setEmail(firebaseUser.getEmail());
+                updateUser = true;
+            }
+            if (user.getPhoneNumber() == null || user.getPhoneNumber().isEmpty()) {
+                user.setPhoneNumber(firebaseUser.getPhoneNumber());
+                updateUser = true;
+            }
+            if (user.getFirstName() == null) {
+                user.setFirstName("");
+                updateUser = true;
+            }
+            if (user.getLastName() == null) {
+                user.setLastName("");
+                updateUser = true;
+            }
+            if (user.getStatus() == null) {
+                user.setStatus("");
+                updateUser = true;
+            }
+        }
+        if(updateUser)
+            updateUser(user);
+        return user;
+    }
 }
