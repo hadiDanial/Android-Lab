@@ -25,15 +25,15 @@ public class Utility {
         return getCurrentDate().atOffset(ZoneOffset.UTC).toString();
     }
 
-    private static String formatDate(Instant date, String format) {
+    public static String formatDate(Instant date) {
         ZonedDateTime dt = date.atZone(ZoneId.systemDefault());
-        return String.format("%2d:%2d - %2d.%2d.%2d", dt.getHour(), dt.getMinute(), dt.getDayOfMonth(), dt.getMonthValue(), dt.getYear() % 100);
+        return String.format("%02d:%02d - %02d.%02d.%02d", dt.getHour(), dt.getMinute(), dt.getDayOfMonth(), dt.getMonthValue(), dt.getYear() % 100);
 //        return DateTimeFormatter.ISO_INSTANT.format(date);
     }
 
     public static String getFormattedDateFromString(String dateString) {
         if (dateString == null) return null;
-        return formatDate(getDateFromString(dateString), "HH:mm - dd.MM.yy");
+        return formatDate(getDateFromString(dateString));
     }
 
     public static Instant getDateFromString(String dateString) {
