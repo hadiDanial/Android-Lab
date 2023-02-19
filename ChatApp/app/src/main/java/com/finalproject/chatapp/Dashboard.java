@@ -11,22 +11,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.finalproject.chatapp.adapters.UserAdapter;
 import com.finalproject.chatapp.adapters.UserViewModel;
 import com.finalproject.chatapp.controllers.UserController;
 import com.finalproject.chatapp.fragments.Profile;
-import com.finalproject.chatapp.fragments.UserData;
 import com.finalproject.chatapp.models.User;
 import com.finalproject.chatapp.services.NetworkBroadcastReceiver;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class Dashboard extends AppCompatActivity implements UserViewModel.ISetActiveUser {
     private FirebaseAuth firebaseAuth;
@@ -40,6 +35,12 @@ public class Dashboard extends AppCompatActivity implements UserViewModel.ISetAc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         firebaseAuth = FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser() == null)
+        {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
         UserViewModel userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         UserAdapter userAdapter = new UserAdapter(this, userViewModel, getSupportFragmentManager());
         userViewModel.setListener(this);
