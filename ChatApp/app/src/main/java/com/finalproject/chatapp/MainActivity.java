@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.finalproject.chatapp.controllers.UserController;
@@ -75,7 +76,10 @@ public class MainActivity extends AppCompatActivity implements UserData.ISetupUs
                         if (user.getDisplayName() == null || user.getDisplayName().isEmpty()) // No display name set
                             openUserDataFragment(user);
                         else
+                        {
+                            UserController.saveUserData(getApplication(), user);
                             moveToDashboard();
+                        }
 
                     }
                 }
@@ -116,20 +120,38 @@ public class MainActivity extends AppCompatActivity implements UserData.ISetupUs
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loginButton = findViewById(R.id.loginButton);
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             if (isNewUser)
+            {
                 reopenUserDataFragment();
+            }
             else
-                moveToDashboard();
+            {
+                loginButton.setVisibility(View.GONE);
+                findViewById(R.id.welcomeLayout).setVisibility(View.VISIBLE);
+                findViewById(R.id.continueButton).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        moveToDashboard();
+                    }
+                });
+                User user = UserController.getLoggedInUser(getApplication());
+                TextView welcomeText = findViewById(R.id.welcomeText);
+                if(user != null)
+                    welcomeText.setText("Welcome back, " + user.getName() + "!");
+                else
+                    welcomeText.setText("Welcome back!");
+            }
 //            FragmentManager supportFragmentManager = getSupportFragmentManager();
 //            FragmentTransaction ft = supportFragmentManager.beginTransaction();
 //            Fragment f = new LoginFragment(supportFragmentManager);
 //            ft.add(R.id.mainContainer, f).addToBackStack("login").commit();
         }
 
-        loginButton = findViewById(R.id.loginButton);
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
