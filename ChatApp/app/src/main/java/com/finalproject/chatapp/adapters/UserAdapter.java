@@ -93,7 +93,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
                     FragmentTransaction ft = fragmentManager.beginTransaction();
                     Fragment f = Profile.newInstance(user);
                     ft.add(R.id.dashboardContainer, f).addToBackStack("profile").commit();
-                    return false;
+                    return true;
                 }
             });
         }
