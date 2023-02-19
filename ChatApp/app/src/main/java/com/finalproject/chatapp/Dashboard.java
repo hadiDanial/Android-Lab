@@ -82,7 +82,7 @@ public class Dashboard extends AppCompatActivity implements UserViewModel.ISetAc
                 FragmentManager supportFragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = supportFragmentManager.beginTransaction();
                 Fragment f = Profile.newInstance(user);
-                ft.add(R.id.mainContainer, f).commit();
+                ft.add(R.id.dashboardContainer, f).commit();
                 break;
             }
             case R.id.Logout:
