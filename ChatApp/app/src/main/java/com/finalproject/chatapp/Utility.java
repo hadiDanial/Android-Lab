@@ -34,6 +34,7 @@ public class Utility {
     }
 
     public static String getFormattedDate(String dateString) {
+        if(dateString == null) return null;
         DateFormat dateFormat = new SimpleDateFormat(FORMAT);
         try {
             Date date = dateFormat.parse(dateString);
@@ -43,6 +44,15 @@ public class Utility {
         }
     }
 
+    public static Date getDateFromString(String dateString) {
+        if(dateString == null) return null;
+        DateFormat dateFormat = new SimpleDateFormat(FORMAT);
+        try {
+            return dateFormat.parse(dateString);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
 
     public static ValueAnimator getValueAnimator(View view, int colorFrom, int colorTo, int duration) {
         ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
