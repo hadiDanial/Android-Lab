@@ -14,10 +14,13 @@ import androidx.annotation.Nullable;
 
 import com.finalproject.chatapp.Dashboard;
 import com.finalproject.chatapp.R;
+import com.finalproject.chatapp.Utility;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.time.Instant;
 
 public class NotificationService extends Service {
     private static final String CHANNEL_ID_1 = "ChatAppNotification", CHANNEL_ID_2 = "UserNotification";
@@ -68,7 +71,7 @@ public class NotificationService extends Service {
                 .build();
 
         notification2 = new Notification.Builder(this, CHANNEL_ID_2).setContentTitle("ChatApp - New User!")
-                .setContentText("A new user joined! Talk to them today!")
+                .setContentText("A new user joined! Talk to them today! " + Utility.formatDate(Instant.now()))
                 .setSmallIcon(R.drawable.ic_sendmessage)
                 .setContentIntent(pendingIntent)
                 .setStyle(new Notification.BigTextStyle())
