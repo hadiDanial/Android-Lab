@@ -25,6 +25,7 @@ public class User implements Serializable {
     public static final String DB_IS_ONLINE = "online";
     public static final String DB_LAST_LOGIN_TIME = "lastLoginTimeString";
     public static final String DB_STATUS = "status";
+    public static final String DB_KEY = "uID";
 
 
     public User(){ }
@@ -84,12 +85,13 @@ public class User implements Serializable {
     }
 
     public String getLastLoginTimeString() {
+        if(lastLoginTime==null) return "";
         return Utility.getDate(lastLoginTime);
     }
 
     public void setLastLoginTimeString(String lastLoginTimeString) {
         this.lastLoginTimeString = lastLoginTimeString;
-        lastLoginTime = new Date();
+        lastLoginTime = Utility.getDateFromString(lastLoginTimeString);
     }
 
     public void setLastLoginTime(Date lastLoginTime) {
