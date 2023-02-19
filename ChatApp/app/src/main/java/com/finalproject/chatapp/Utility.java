@@ -2,12 +2,12 @@ package com.finalproject.chatapp;
 
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.view.View;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
@@ -69,5 +69,17 @@ public class Utility {
 
         });
         return colorAnimation;
+    }
+
+    public static void generateAlertDialog(DialogInterface.OnClickListener positiveButtonAction, DialogInterface.OnClickListener negativeButtonAction,
+                                           String alertMessage, String positiveButtonText, String negativeButtonText, boolean isCancelable, Context context) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        alertDialogBuilder.setMessage(alertMessage);
+        alertDialogBuilder.setCancelable(isCancelable);
+
+        alertDialogBuilder.setPositiveButton(positiveButtonText, positiveButtonAction);
+        alertDialogBuilder.setNegativeButton(negativeButtonText, negativeButtonAction);
+
+        alertDialogBuilder.create().show();
     }
 }
