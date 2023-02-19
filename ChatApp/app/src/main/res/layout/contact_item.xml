@@ -23,7 +23,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             app:cardBackgroundColor="@color/toolbarBackground"
-            app:cardCornerRadius="25dp"
+            app:cardCornerRadius="10dp"
             app:cardElevation="0dp">
 
             <RelativeLayout
