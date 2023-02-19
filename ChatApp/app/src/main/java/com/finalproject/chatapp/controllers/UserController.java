@@ -54,6 +54,7 @@ public class UserController {
      * @param application
      */
     public static void logout(Application application) {
+        setOnlineStatus(false);
         FirebaseAuth.getInstance().signOut();
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(application);
         SharedPreferences.Editor editor = sharedPref.edit();
@@ -154,7 +155,9 @@ public class UserController {
      * Set offline on disconnect.
      */
     public static void setOnDisconnect() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(TABLE_NAME).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(User.DB_IS_ONLINE);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if(firebaseUser == null) return;;
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(TABLE_NAME).child(firebaseUser.getUid()).child(User.DB_IS_ONLINE);
         ref.onDisconnect().setValue(false);
     }
 }
