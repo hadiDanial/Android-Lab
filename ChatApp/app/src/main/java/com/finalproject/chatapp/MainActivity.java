@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.finalproject.chatapp.controllers.UserController;
 import com.finalproject.chatapp.fragments.UserData;
 import com.finalproject.chatapp.models.User;
+import com.finalproject.chatapp.services.NotificationService;
 import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract;
@@ -45,6 +48,14 @@ public class MainActivity extends AppCompatActivity implements UserData.ISetupUs
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loginButton = findViewById(R.id.loginButton);
+
+        // Start notification service
+        if(!isMyServiceRunning(NotificationService.class))
+        {
+            Intent intent = new Intent(this, NotificationService.class);
+            startForegroundService(intent);
+        }
+
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
@@ -202,5 +213,15 @@ public class MainActivity extends AppCompatActivity implements UserData.ISetupUs
     @Override
     public void setupComplete() {
         isNewUser = false;
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for(ActivityManager.RunningServiceInfo service : manager.getRunningServices( Integer.MAX_VALUE ))
+        {
+            if(serviceClass.getName().equals(service.service.getClassName()))
+                return true;
+        }
+        return false;
     }
 }
