@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.finalproject.chatapp.controllers.MessageController;
 import com.finalproject.chatapp.models.Message;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,6 +50,8 @@ public class MessageViewModel extends AndroidViewModel {
                     if (firebaseUser != null && message != null && message.getContent() != null)
                     {
                         message.setDate(snapshot.getKey());
+                        message.setChatID(chatID);
+                        message = MessageController.getMessageWithCorrectTime(message);
                         messageArrayList.add(message);
                     }
                 }

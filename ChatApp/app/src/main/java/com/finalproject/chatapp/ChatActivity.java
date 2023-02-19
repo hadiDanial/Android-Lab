@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 
 import com.finalproject.chatapp.adapters.MessageAdapter;
 import com.finalproject.chatapp.adapters.MessageViewModel;
+import com.finalproject.chatapp.controllers.MessageController;
 import com.finalproject.chatapp.controllers.UserController;
 import com.finalproject.chatapp.models.Chat;
 import com.finalproject.chatapp.models.Message;
@@ -62,6 +63,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
         messagesDatabase = FirebaseDatabase.getInstance().getReference("Messages").child(chatID);
         networkBroadcastReceiver = new NetworkBroadcastReceiver(getSupportFragmentManager(), R.id.chatContainer, this, findViewById(R.id.writeMessageLayout));
+
+        UserController.setOnDisconnect();
     }
 
     @Override
@@ -84,8 +87,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         String msg = messageText.getText().toString().trim();
         if(msg != null && !msg.equals(""))
         {
-            Message message = new Message(chatID, userID, Utility.getDate(), msg);
-            messagesDatabase.child(Utility.getDate()).setValue(message);
+            Message message = new Message(chatID, userID, Utility.getCurrentDateString(), msg);
+            MessageController.saveMessage(message);
             messageText.setText("");
             recyclerView.scrollToPosition(messageAdapter.getItemCount() - 1);
         }
@@ -102,7 +105,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         alertDialogBuilder.setMessage("Are you sure you want to delete this message?");
         alertDialogBuilder.setCancelable(true);
 
-        alertDialogBuilder.setPositiveButton("Delete", (dialog, id) -> messagesDatabase.child(message.getDate()).removeValue());
+        alertDialogBuilder.setPositiveButton("Delete", (dialog, id) -> MessageController.deleteMessage(message));
         alertDialogBuilder.setNegativeButton("Cancel", (dialog, id) -> dialog.cancel());
 
         alertDialogBuilder.create().show();

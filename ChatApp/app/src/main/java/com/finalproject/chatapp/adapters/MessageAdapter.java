@@ -3,7 +3,6 @@ package com.finalproject.chatapp.adapters;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -99,7 +98,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public void setMessage(Message message) {
             this.message = message;
             messageText.setText(message.getContent());
-            messageDate.setText(Utility.getFormattedDate(message.getDate()));
+            messageDate.setText(Utility.getFormattedDateFromString(message.getDate()));
             layout = isCurrentUser(message) ? itemView.findViewById(R.id.rightLayout) : itemView.findViewById(R.id.leftLayout);
             boolean isCurrentUser = isCurrentUser(message);
 
