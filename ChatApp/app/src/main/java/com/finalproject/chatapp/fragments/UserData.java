@@ -14,11 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.finalproject.chatapp.Dashboard;
+import com.finalproject.chatapp.Utility;
 import com.finalproject.chatapp.controllers.UserController;
 import com.finalproject.chatapp.databinding.FragmentUserDataBinding;
 import com.finalproject.chatapp.models.User;
-
-import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,7 +73,7 @@ public class UserData extends Fragment {
                 user.setFirstName(binding.firstName.getText().toString().trim());
                 user.setLastName(binding.lastName.getText().toString().trim());
                 user.setStatus(binding.status.getText().toString().trim());
-                user.setLastLoginTime(new Date());
+                user.setLastLoginTime(Utility.getCurrentDate());
                 UserController.updateUser(user);
                 listener.setupComplete();
                 Intent intent = new Intent(getContext(), Dashboard.class);

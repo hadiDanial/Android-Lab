@@ -4,54 +4,41 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
-
-import java.text.DateFormat;
-import java.text.ParseException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Utility {
-    private static final String FORMAT = "yyyy-MM-dd'T'HH:mm:sss'Z'";
-    public static String getDate()
-    {
-        SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat(FORMAT);
-        return ISO_8601_FORMAT.format(new Date());
-    }
-    public static String getDate(Date date)
-    {
-        SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat(FORMAT);
-        return ISO_8601_FORMAT.format(date);
-    }
-    public static String getDate(Date date, String format)
-    {
-        SimpleDateFormat ISO_8601_FORMAT = new SimpleDateFormat(format);
-        return ISO_8601_FORMAT.format(date);
+
+
+    public static Instant getCurrentDate() {
+        return OffsetDateTime.now(ZoneOffset.UTC).toInstant();
     }
 
-    public static String getFormattedDate(String dateString) {
-        if(dateString == null) return null;
-        DateFormat dateFormat = new SimpleDateFormat(FORMAT);
-        try {
-            Date date = dateFormat.parse(dateString);
-            return getDate(date, "HH:mm - dd.MM.yy");
-        } catch (ParseException e) {
-            return "";
-        }
+    public static String getCurrentDateString() {
+        return getCurrentDate().atOffset(ZoneOffset.UTC).toString();
     }
 
-    public static Date getDateFromString(String dateString) {
-        if(dateString == null) return null;
-        DateFormat dateFormat = new SimpleDateFormat(FORMAT);
-        try {
-            return dateFormat.parse(dateString);
-        } catch (ParseException e) {
-            return null;
-        }
+    private static String formatDate(Instant date, String format) {
+        ZonedDateTime dt = date.atZone(ZoneId.systemDefault());
+        return String.format("%2d:%2d - %2d.%2d.%2d", dt.getHour(), dt.getMinute(), dt.getDayOfMonth(), dt.getMonthValue(), dt.getYear() % 100);
+//        return DateTimeFormatter.ISO_INSTANT.format(date);
+    }
+
+    public static String getFormattedDateFromString(String dateString) {
+        if (dateString == null) return null;
+        return formatDate(getDateFromString(dateString), "HH:mm - dd.MM.yy");
+    }
+
+    public static Instant getDateFromString(String dateString) {
+        if (dateString == null) return null;
+        return Instant.from(DateTimeFormatter.ISO_INSTANT.parse(dateString)).atOffset(OffsetDateTime.now().getOffset()).toInstant();
     }
 
     public static ValueAnimator getValueAnimator(View view, int colorFrom, int colorTo, int duration) {

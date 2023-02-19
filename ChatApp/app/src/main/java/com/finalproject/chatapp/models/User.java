@@ -5,7 +5,7 @@ import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.Date;
+import java.time.ZoneOffset;
 
 public class User implements Serializable {
     private String uID;
@@ -13,7 +13,7 @@ public class User implements Serializable {
     private String displayName;
     private String email, phoneNumber;
     private boolean isOnline;
-    private Date lastLoginTime;
+    private Instant lastLoginTime;
     private String status;
     private String lastLoginTimeString;
 
@@ -39,8 +39,8 @@ public class User implements Serializable {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.status = status;
-        lastLoginTime = new Date();
-        lastLoginTimeString = Utility.getDate(lastLoginTime);
+        lastLoginTime = Utility.getCurrentDate();
+        lastLoginTimeString = lastLoginTime.atOffset(ZoneOffset.UTC).toString();
     }
 
     @Exclude
@@ -86,7 +86,7 @@ public class User implements Serializable {
 
     public String getLastLoginTimeString() {
         if(lastLoginTime==null) return "";
-        return Utility.getDate(lastLoginTime);
+        return lastLoginTime.toString();
     }
 
     public void setLastLoginTimeString(String lastLoginTimeString) {
@@ -94,8 +94,9 @@ public class User implements Serializable {
         lastLoginTime = Utility.getDateFromString(lastLoginTimeString);
     }
 
-    public void setLastLoginTime(Date lastLoginTime) {
+    public void setLastLoginTime(Instant lastLoginTime) {
         this.lastLoginTime = lastLoginTime;
+        lastLoginTime.atOffset(ZoneOffset.UTC).toString();
     }
 
     public String getEmail() {
