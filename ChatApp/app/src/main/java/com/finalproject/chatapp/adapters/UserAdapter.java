@@ -8,13 +8,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.finalproject.chatapp.ChatActivity;
 import com.finalproject.chatapp.R;
+import com.finalproject.chatapp.fragments.Profile;
 import com.finalproject.chatapp.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -87,7 +90,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    // Todo: Open selected user profile
+                    FragmentTransaction ft = fragmentManager.beginTransaction();
+                    Fragment f = Profile.newInstance(user);
+                    ft.add(R.id.dashboardContainer, f).addToBackStack("profile").commit();
                     return false;
                 }
             });
