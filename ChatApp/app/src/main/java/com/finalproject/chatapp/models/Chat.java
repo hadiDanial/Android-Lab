@@ -52,6 +52,11 @@ public class Chat {
         String uid = ids.get(0) + "_" + ids.get(1);
         return uid;
     }
+    public static String getChatID(String userID1, String userID2)
+    {
+        Chat chat = new Chat(userID1, userID2);
+        return chat.getChatID();
+    }
 
     @Override
     public String toString() {
