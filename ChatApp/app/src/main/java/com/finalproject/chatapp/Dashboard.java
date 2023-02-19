@@ -23,6 +23,7 @@ import com.finalproject.chatapp.controllers.UserController;
 import com.finalproject.chatapp.fragments.Profile;
 import com.finalproject.chatapp.fragments.UserData;
 import com.finalproject.chatapp.models.User;
+import com.finalproject.chatapp.services.NetworkBroadcastReceiver;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Dashboard extends AppCompatActivity implements UserViewModel.ISetActiveUser {
@@ -30,6 +31,7 @@ public class Dashboard extends AppCompatActivity implements UserViewModel.ISetAc
     private RecyclerView recyclerView;
     private RelativeLayout container;
     private User user;
+    private NetworkBroadcastReceiver networkBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,17 +45,20 @@ public class Dashboard extends AppCompatActivity implements UserViewModel.ISetAc
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(userAdapter);
         container = findViewById(R.id.dashboardContainer);
+        networkBroadcastReceiver = new NetworkBroadcastReceiver(getSupportFragmentManager(), R.id.dashboardContainer, this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         UserController.setOnlineStatus(true);
+        networkBroadcastReceiver.register();
     }
 
     @Override
     protected void onPause() {
         UserController.setOnlineStatus(false);
+        networkBroadcastReceiver.unregister();
         super.onPause();
     }
 
@@ -78,7 +83,7 @@ public class Dashboard extends AppCompatActivity implements UserViewModel.ISetAc
             }
             case R.id.Logout:
             {
-                firebaseAuth.signOut();
+                UserController.logout(getApplication());
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -88,7 +93,6 @@ public class Dashboard extends AppCompatActivity implements UserViewModel.ISetAc
                 finish();
             }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
