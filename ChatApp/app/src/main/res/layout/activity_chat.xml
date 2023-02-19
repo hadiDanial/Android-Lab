@@ -39,6 +39,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/writeMessageLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="70dp"
@@ -49,11 +50,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:background="@color/chatBackground"
             android:orientation="horizontal"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:visibility="visible"
-            android:background="@color/chatBackground"
             android:weightSum="2">
 
             <RelativeLayout
