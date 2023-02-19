@@ -1,14 +1,16 @@
 package com.finalproject.chatapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,7 +22,6 @@ import com.finalproject.chatapp.controllers.UserController;
 import com.finalproject.chatapp.models.Chat;
 import com.finalproject.chatapp.models.Message;
 import com.finalproject.chatapp.services.NetworkBroadcastReceiver;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -82,6 +83,22 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         super.onPause();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.chat_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.Exit:
+            {
+                finish();
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
     // Send a new message
     @Override
     public void onClick(View v) {
