@@ -25,6 +25,8 @@ import com.finalproject.chatapp.fragments.UserData;
 import com.finalproject.chatapp.models.User;
 import com.finalproject.chatapp.services.NetworkBroadcastReceiver;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Dashboard extends AppCompatActivity implements UserViewModel.ISetActiveUser {
     private FirebaseAuth firebaseAuth;
@@ -46,6 +48,8 @@ public class Dashboard extends AppCompatActivity implements UserViewModel.ISetAc
         recyclerView.setAdapter(userAdapter);
         container = findViewById(R.id.dashboardContainer);
         networkBroadcastReceiver = new NetworkBroadcastReceiver(getSupportFragmentManager(), R.id.dashboardContainer, this);
+
+        UserController.setOnDisconnect();
     }
 
     @Override

@@ -4,9 +4,11 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.finalproject.chatapp.Utility;
 import com.finalproject.chatapp.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class UserController {
@@ -103,7 +105,10 @@ public class UserController {
         return user;
     }
 
-
+    /**
+     * Setup user values so nothing is null.
+     * @return
+     */
     public static User setupUser(User user, FirebaseUser firebaseUser, boolean overrideAllFields) {
         boolean updateUser = false;
         if (overrideAllFields) {
@@ -135,9 +140,21 @@ public class UserController {
                 user.setStatus("");
                 updateUser = true;
             }
+            if(user.getLastLoginTimeString() == null)
+            {
+                user.setLastLoginTime(Utility.getCurrentDate());
+            }
         }
         if(updateUser)
             updateUser(user);
         return user;
+    }
+
+    /**
+     * Set offline on disconnect.
+     */
+    public static void setOnDisconnect() {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(TABLE_NAME).child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child(User.DB_IS_ONLINE);
+        ref.onDisconnect().setValue(false);
     }
 }
