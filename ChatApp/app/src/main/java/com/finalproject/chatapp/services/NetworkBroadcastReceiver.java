@@ -55,7 +55,7 @@ public class NetworkBroadcastReceiver extends BroadcastReceiver {
     private void setNetworkStatus(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if(info != null && info.isConnected()) // TODO: Load a fragment
+        if(info != null && info.isConnected())
         {
             networkOff = false;
         }
