@@ -57,6 +57,8 @@ public class User implements Serializable {
     }
 
     public void setFirstName(String firstName) {
+        if(firstName == null) {this.firstName = ""; return;}
+        if(firstName.isEmpty()) return;
         this.firstName = firstName;
     }
 
@@ -65,6 +67,8 @@ public class User implements Serializable {
     }
 
     public void setLastName(String lastName) {
+        if(lastName == null) {this.lastName = ""; return;}
+        if(lastName.isEmpty()) return;
         this.lastName = lastName;
     }
 
@@ -73,6 +77,8 @@ public class User implements Serializable {
     }
 
     public void setDisplayName(String displayName) {
+        if(displayName == null) {this.displayName = ""; return;}
+        if(displayName.isEmpty()) return;
         this.displayName = displayName;
     }
 
@@ -112,6 +118,8 @@ public class User implements Serializable {
     }
 
     public void setPhoneNumber(String phoneNumber) {
+        if(phoneNumber == null) {this.phoneNumber = ""; return;}
+        if(phoneNumber.isEmpty()) return;
         this.phoneNumber = phoneNumber;
     }
 
