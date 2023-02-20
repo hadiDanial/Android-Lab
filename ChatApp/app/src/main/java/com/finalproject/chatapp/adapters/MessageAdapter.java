@@ -96,11 +96,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         }
 
         public void setMessage(Message message) {
+            boolean isCurrentUser = isCurrentUser(message);
             this.message = message;
             messageText.setText(message.getContent());
             messageDate.setText(Utility.getFormattedDateFromString(message.getDate()));
-            layout = isCurrentUser(message) ? itemView.findViewById(R.id.rightLayout) : itemView.findViewById(R.id.leftLayout);
-            boolean isCurrentUser = isCurrentUser(message);
+            layout = isCurrentUser ? itemView.findViewById(R.id.rightLayout) : itemView.findViewById(R.id.leftLayout);
 
             int colorFrom, colorTo;
             colorFrom = context.getColor(isCurrentUser ? R.color.rightBubbleBackground : R.color.leftBubbleBackground);

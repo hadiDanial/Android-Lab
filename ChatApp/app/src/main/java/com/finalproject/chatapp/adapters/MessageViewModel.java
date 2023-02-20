@@ -44,7 +44,7 @@ public class MessageViewModel extends AndroidViewModel {
         messagesDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                messageArrayList.clear(); //initialize the list of the users
+                messageArrayList.clear(); //initialize the list of the messages
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Message message = snapshot.getValue(Message.class);
                     if (firebaseUser != null && message != null && message.getContent() != null)

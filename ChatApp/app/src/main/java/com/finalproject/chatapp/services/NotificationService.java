@@ -68,10 +68,12 @@ public class NotificationService extends Service {
         Intent notificationIntent = new Intent(this, Dashboard.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         notification1 = new Notification.Builder(this, CHANNEL_ID_1).setContentTitle("ChatApp")
+                .setContentText("ChatApp is listening for user updates!")
+                .setSmallIcon(R.drawable.ic_send)
                 .build();
 
         notification2 = new Notification.Builder(this, CHANNEL_ID_2).setContentTitle("ChatApp - New User!")
-                .setContentText("A new user joined! Talk to them today! " + Utility.formatDate(Instant.now()))
+                .setContentText("A new user joined! Talk to them today!")
                 .setSmallIcon(R.drawable.ic_sendmessage)
                 .setContentIntent(pendingIntent)
                 .setStyle(new Notification.BigTextStyle())

@@ -79,7 +79,6 @@ public class Dashboard extends AppCompatActivity implements UserViewModel.ISetAc
         {
             case  R.id.profile:
             {
-                //loginButton.setVisibility(View.GONE);
                 FragmentManager supportFragmentManager = getSupportFragmentManager();
                 FragmentTransaction ft = supportFragmentManager.beginTransaction();
                 Fragment f = Profile.newInstance(user);

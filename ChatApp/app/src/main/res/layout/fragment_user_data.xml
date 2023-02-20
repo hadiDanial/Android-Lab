@@ -17,14 +17,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp">
 
-<!--                <com.makeramen.roundedimageview.RoundedImageView-->
-<!--                    android:id="@+id/imgUser"-->
-<!--                    android:layout_width="150dp"-->
-<!--                    android:layout_height="150dp"-->
-<!--                    android:layout_gravity="center"-->
-<!--                    android:background="@drawable/user_picture_picker"-->
-<!--                    android:scaleType="centerCrop"-->
-<!--                    app:riv_oval="true" />-->
+                <!--                <com.makeramen.roundedimageview.RoundedImageView-->
+                <!--                    android:id="@+id/imgUser"-->
+                <!--                    android:layout_width="150dp"-->
+                <!--                    android:layout_height="150dp"-->
+                <!--                    android:layout_gravity="center"-->
+                <!--                    android:background="@drawable/user_picture_picker"-->
+                <!--                    android:scaleType="centerCrop"-->
+                <!--                    app:riv_oval="true" />-->
 
                 <TextView
                     android:id="@+id/imagePicker"
@@ -34,18 +34,19 @@
                     android:text="@string/add_imageRegister"
                     android:textColor="@color/white"
                     android:textFontWeight="600"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    android:visibility="gone" />
             </FrameLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:visibility="gone"
                 android:layout_marginTop="5dp"
                 android:background="@android:color/transparent"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="50dp"
             app:cardBackgroundColor="@color/chatBackground"
             app:cardCornerRadius="10dp"
             app:cardElevation="20dp">

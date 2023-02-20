@@ -47,8 +47,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         userID = bundle.getString("userID");
         otherUserID = bundle.getString("otherUserID");
 
-        Chat chat = new Chat(userID, otherUserID);
-        chatID = chat.getChatID();
+        chatID = Chat.getChatID(userID, otherUserID);
         sendButton.setOnClickListener(this);
 
         MessageViewModel messageViewModel = new ViewModelProvider(this).get(MessageViewModel.class);

@@ -21,11 +21,14 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class UserViewModel extends AndroidViewModel {
+
     private MutableLiveData<ArrayList<User>> users;
-    private FirebaseAuth firebaseAuth;
     private ArrayList<User> userArrayList;
     private User activeUser;
+
+    private FirebaseAuth firebaseAuth;
     private ISetActiveUser listener;
+
     public UserViewModel(@NonNull Application application) {
         super(application);
         users = new MutableLiveData<>();
@@ -34,7 +37,7 @@ public class UserViewModel extends AndroidViewModel {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         DatabaseReference usersDatabase = FirebaseDatabase.getInstance().getReference("Users");
 
-        // Get all users from database
+        // Get all users from database + subscribe to changes in users
         usersDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -44,14 +47,12 @@ public class UserViewModel extends AndroidViewModel {
                     user.setuID(snapshot.getKey());
                     if (firebaseUser != null && user != null && user.getuID() != null)
                     {
-                        if (!user.getuID().equals(firebaseUser.getUid())) //if the user id is different then current connected user
+                        if (!user.getuID().equals(firebaseUser.getUid())) // Add user to list of users
                             userArrayList.add(user);
-                        else{
+                        else{ // Don't add self to list - set as active user
                             activeUser = user;
                             listener.setActiveUser(activeUser);
                         }
-//                        chatsViewModel.getSelected().observe((LifecycleOwner) context, item -> { //update the userAdapter about change in date and refresh the view
-//                            userAdapter.notifyDataSetChanged();
                     }
                 }
                 Log.i("", userArrayList.toString());

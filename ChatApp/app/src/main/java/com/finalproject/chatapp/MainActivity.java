@@ -40,7 +40,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements UserData.ISetupUserDetails {
     private FirebaseAuth firebaseAuth;
     private Button loginButton;
-    private boolean isNewUser = false;
+    private boolean isNewUser = false; // Not used
     private User user;
 
     @Override
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements UserData.ISetupUs
                         isNewUser = true;
                         user = UserController.setupUser(user, firebaseUser, true);
                         usersDatabase.child(firebaseUser.getUid()).setValue(user);
-                        UserController.saveUserData(getApplication(), user);
+                        UserController.saveUserData(getApplication(), user); // Save user in SP
                         openUserDataFragment(user);
                     } else // User exists
                     {
@@ -191,17 +191,19 @@ public class MainActivity extends AppCompatActivity implements UserData.ISetupUs
      * Handles logging in via Firebase AuthUI.
      */
     private void loginUsingAuthUI() {
+        // Login providers - Google, email, phone
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.PhoneBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build());
 
-        // Create and launch sign-in intent
+        // Custom layout
         AuthMethodPickerLayout myLayout = new AuthMethodPickerLayout.Builder(R.layout.auth_ui_login)
                 .setGoogleButtonId(R.id.googleLoginButton)
                 .setPhoneButtonId(R.id.phoneLoginButton)
                 .setEmailButtonId(R.id.emailLoginButton).build();
 
+        // Create and launch sign-in intent
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)

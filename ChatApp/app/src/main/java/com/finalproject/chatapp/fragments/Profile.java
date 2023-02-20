@@ -31,17 +31,11 @@ import com.finalproject.chatapp.models.Chat;
 import com.finalproject.chatapp.models.User;
 import com.google.firebase.auth.FirebaseAuth;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Profile#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Profile extends Fragment {
     private final User user;
     private View clearConversation, sendMessage, editButton, editActionViews, cancelChanges, saveChanges;
     private EditText displayNameText, firstNameText, lastNameText, statusText, phoneNumberText;
     private TextView onlineStatus;
-    private View[] viewsForOtherUsers, viewsForLoggedInUser;
     private boolean isLoggedInUserProfile;
 
     public Profile(User user) {
@@ -114,6 +108,7 @@ public class Profile extends Fragment {
                 user.setLastName(lastNameText.getText().toString().trim());
                 user.setDisplayName(displayNameText.getText().toString().trim());
                 UserController.updateUser(user);
+                UserController.saveUserData(getActivity().getApplication(), user);
                 setProfileEditable(false);
                 ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(view.getWindowToken(), 0); // Hide keyboard
             }
@@ -162,7 +157,6 @@ public class Profile extends Fragment {
     }
 
     private void setProfileEditable(boolean enabled) {
-        int bgColor = enabled ? R.color.white : R.color.transparent, textColor = enabled ? R.color.black : R.color.white;
         displayNameText.setEnabled(enabled);
         firstNameText.setEnabled(enabled);
         lastNameText.setEnabled(enabled);
