@@ -107,6 +107,7 @@ public class Profile extends Fragment {
                 user.setFirstName(firstNameText.getText().toString().trim());
                 user.setLastName(lastNameText.getText().toString().trim());
                 user.setDisplayName(displayNameText.getText().toString().trim());
+                user.setStatus(statusText.getText().toString().trim());
                 UserController.updateUser(user);
                 UserController.saveUserData(getActivity().getApplication(), user);
                 setProfileEditable(false);

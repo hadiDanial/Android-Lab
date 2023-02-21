@@ -64,8 +64,8 @@ public class UserData extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setTextWatchers();
-        binding.btnDataDone.setEnabled(false);
+//        setTextWatchers();
+//        binding.btnDataDone.setEnabled(false);
         binding.btnDataDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +86,7 @@ public class UserData extends Fragment {
         binding.firstName.setText(user.getFirstName());
         binding.lastName.setText(user.getLastName());
         binding.status.setText(user.getStatus());
-        firstTextEntered = !user.getDisplayName().isEmpty(); secondTextEntered = !user.getFirstName().isEmpty(); thirdTextEntered = !user.getLastName().isEmpty();
+//        firstTextEntered = !user.getDisplayName().isEmpty(); secondTextEntered = !user.getFirstName().isEmpty(); thirdTextEntered = !user.getLastName().isEmpty();
     }
 
     private void setTextWatchers() {

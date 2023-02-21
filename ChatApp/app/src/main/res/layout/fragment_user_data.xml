@@ -116,6 +116,7 @@
                     android:layout_height="43dp"
                     android:layout_marginTop="30dp"
                     android:background="@drawable/login_input_style"
+                    android:capitalize="sentences"
                     android:hint="@string/statusRegister"
                     android:inputType="text"
                     android:padding="10dp"
